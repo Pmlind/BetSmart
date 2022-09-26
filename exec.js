@@ -258,6 +258,7 @@ function parse(week)
             var diff;
             var winner;
             var loser;
+            var temp;
             for (const game of games)
             {
                 try
@@ -271,8 +272,10 @@ function parse(week)
 
                     winner.score += diff;
                     loser.score -= diff;
-                    winner.weightedScore += (diff + (loser.score - winner.score))/(loser.games + winner.games)/2;
-                    loser.weightedScore -= (diff + (winner.score - loser.score))/(loser.games + winner.games)/2;
+                    temp = winner.weightedScore;
+                    temp += diff + (loser.weightedScore/loser.games) - (winner.weightedScore/winner.games);
+                    loser.weightedScore -= diff + (winner.weightedScore/loser.games) - (loser.weightedScore/winner.games);
+                    winner.weightedScore = temp;
 
                     console.log(loser);
                     console.log(winner);
@@ -320,19 +323,19 @@ async function run() {
                 team2 = teams.find(obj => {
                     return obj.mascot === team2;
                 });
-                if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 5)
+                if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 10)
                 {
                     output += "Regular: "+team1.mascot+" "+spread+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
                 }
-                else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -5)
+                else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -10)
                 {
                     output += "Regular: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
                 }
-                if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 5)
+                if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 10)
                 {
                     output += "Weighted: "+team1.mascot+" "+spread+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
                 }
-                else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -5)
+                else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -10)
                 {
                     output += "Weighted: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
                 }
