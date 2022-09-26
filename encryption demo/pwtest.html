@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>passwords encrypting demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+</head>
+<body>
+    <form>
+        <label>Password: </label>
+        <input type="text" id="pw" size="20">
+        <button type="button" onclick="document.getElementById('demo').innerHTML 
+                                        += CryptoJS.SHA256(document.forms[0].pw.value) 
+                                        + ' ('+document.forms[0].pw.value+')\n';">Submit</button>
+    </form>
+    <p>Encrypted password:</p>
+    <p id="demo"></p>
+</body>
+</html>
