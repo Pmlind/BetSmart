@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login to BetSmart</title>
   <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+  <script language="javascript" type="text/javascript">
+	  function signin(){
+        var pw = String(CryptoJS.SHA256(document.getElementById("signinpassword").value));
+        document.getElementById("signinpassword").value=pw;
+		    document.getElementById("signinform").submit();
+		    }
+	  function signup(){
+        var password = String(CryptoJS.SHA256(document.getElementById("signuppassword").value));
+        var confirmm = String(CryptoJS.SHA256(document.getElementById("signuppasswordconfirm").value));
+        console.log(password+" "+confirmm);
+        if(password==confirmm){
+            document.getElementById("signuppassword").value=password;
+            document.getElementById("signupform").submit();
+            }
+        else{
+              alert("passwords are not matching");
+            }
+		}
+  </script>
 </head>
 <header>
 </header>
@@ -16,42 +36,42 @@
       <input id="tab2" type="radio" name="tab" class="sign-up">
       <label for="tab2" class="tab">Sign Up</label>
       <div class="login-form">
-        <form class="sign-in-htm" action="./api/user/login.php" method="GET">
+        <form id="signinform" class="sign-in-htm" action="./api/user/login.php" method="GET" onsubmit="event.preventDefault(); signin()">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input id="username" name="username"  type="text" class="input">
+            <input id="username" name="username"  type="text" class="input" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input id="password" name="password" type="password" class="input" data-type="password">
+            <input id="signinpassword" name="password" type="password" class="input" data-type="password" required>
           </div>
           <div class="group">
             <input id="check" type="checkbox" class="check" checked>
             <label for="check"><span class="icon"></span>Keep me Signed in</label>
           </div>
           <div class="group">
-            <input type="submit" class="button" value="Sign In">
+            <input type="submit" class="button" value="Sign in">
           </div>
           <div class="hr"></div>
           <div class="footerLink">
             <a href="recover.html">Forgot Password?</a>
           </div>
         </form>
-        <form class="sign-up-htm" action="./api/user/signup.php" method="POST">
+        <form class="sign-up-htm" id="signupform" action="./api/user/signup.php" method="POST" onsubmit="event.preventDefault(); signup()">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input id="username" name="username" type="text" class="input">
+            <input id="signupusername" name="username" type="text" class="input" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input id="password" name="password" type="password" class="input" data-type="password">
+            <input id="signuppassword" name="password" type="password" class="input" data-type="password" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Confirm Password</label>
-            <input id="pass" type="password" class="input" data-type="password">
+            <input id="signuppasswordconfirm" type="password" class="input" data-type="password" required>
           </div>
           <div class="group">
-            <input type="submit" class="button" value="Sign Up">
+            <input type="submit" class="button" value="Sign up">
           </div>
           <div class="hr"></div>
           <div class="footerLink">
