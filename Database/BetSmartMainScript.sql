@@ -240,7 +240,7 @@ VALUES ('2','Los Angeles Chargers','4.0','Kansas City Chiefs','-4.0');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('2','Miami Dolphins','+3.5','Baltimore Ravens','-3.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
-VALUES ('2','New York Jets','+6.5','	Cleveland Browns','-6.5');
+VALUES ('2','New York Jets','+6.5','Cleveland Browns','-6.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('2','Washington Commanders','+0.5','Detroit Lions','-0.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
@@ -248,7 +248,7 @@ VALUES ('2','Indianapolis Colts','-3.5','Jacksonville Jaguars','+3.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('2','Tampa Bay Buccaneers','-2.5','New Orleans Saints','+2.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
-VALUES ('2','Carolina Panthers','-1.5','	New York Giants','+1.5');
+VALUES ('2','Carolina Panthers','-1.5','New York Giants','+1.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('2','New England Patriots','-2.5','Pittsburgh Steelers','+2.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
@@ -336,7 +336,7 @@ VALUES ('5','Indianapolis Colts','+3.5','Denver Broncos','-3.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('5','New York Giants','+8.5','Green Bay Packers','-8.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
-VALUES ('5','Pittsburgh Steelers','+13.','	Buffalo Bills ','13.5');
+VALUES ('5','Pittsburgh Steelers','+13.','Buffalo Bills ','13.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
 VALUES ('5','Los Angeles Chargers','-2.5','Cleveland Browns','+2.5');
 INSERT INTO SPREADS (week, away, awayspread, home, homespread)
