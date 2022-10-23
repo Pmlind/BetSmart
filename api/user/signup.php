@@ -1,5 +1,5 @@
+<link rel="stylesheet" href="../../assets/css/style.css">
 <?php
-
 $db = new mysqli("betsmart.c4vgirc2flsl.us-east-1.rds.amazonaws.com:3306","admin","Password1","BetSmart");
 
 if ($db->connect_error){ 
@@ -9,22 +9,58 @@ if ($db->connect_error){
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-$adduserQuery = "INSERT INTO Users (Username,Password)
-		VALUES ('$username','$password');";
-$userExistingCheckQuery = "SELECT Username FROM Users WHERE Username = '$username'";
+$adduserQuery = "INSERT INTO USERS (username,psswrd,createddate,lastlogin,balance,verified)
+		VALUES ('$username','$password', now(),now(), '0','no');";
+$userExistingCheckQuery = "SELECT Username FROM USERS WHERE username = '$username'";
 
 $uecresult = $db->query($userExistingCheckQuery);
 $uec = $uecresult->fetch_assoc();
 
 if($uec == NULL){
 	if($db->query($adduserQuery)){
-		 echo "<p>user $username signed up successfully</p>";
+		 echo "<p>Welcome to BetSmart, $username!</p>
+		 <p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+					<script type='text/javascript'>
+						function countdown() {
+							var i = document.getElementById('counter');
+							if (parseInt(i.innerHTML)>0) {
+								i.innerHTML = parseInt(i.innerHTML)-1;
+							}else{
+								window.location='../../mockfrontend.html';
+							}
+						}
+						setInterval(function(){ countdown(); },1000);
+					</script>";
 	}
 	else{
-		 echo "<p>something wrong happened</p>";
+		 echo "<p>An unknown error occured, please try again!</p>
+		 <p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+					<script type='text/javascript'>
+						function countdown() {
+							var i = document.getElementById('counter');
+							if (parseInt(i.innerHTML)>0) {
+								i.innerHTML = parseInt(i.innerHTML)-1;
+							}else{
+								window.location='../../login.html';
+							}
+						}
+						setInterval(function(){ countdown(); },1000);
+					</script>";
 	}
 }
-else echo "<p> user already exists in the database</p>";
+else echo "<p>User $username already exists! Please try again!</p>
+			<p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+					<script type='text/javascript'>
+						function countdown() {
+							var i = document.getElementById('counter');
+							if (parseInt(i.innerHTML)>0) {
+								i.innerHTML = parseInt(i.innerHTML)-1;
+							}else{
+								window.location='../../login.html';
+							}
+						}
+						setInterval(function(){ countdown(); },1000);
+					</script>";
 
 $db->close();
 
