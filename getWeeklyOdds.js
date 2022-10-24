@@ -1,19 +1,37 @@
+'use strict';
 const axios = require('axios');
 const cheerio = require('cheerio');
-const fs = require('fs');
+var fs = require('fs');
 
 const teams = [];
 
+//My variables and their naming schemes are massively confusing, need to fix
+
+var week = 0;
 var weekOfGames = [];
 var bookies = [];
 var odds = [];
 var oddsWithBookies = [];
 var finalOdds = [];
+var spreads = [];
 
 const getVegasTable = async (url) => {
   const response = await axios.get(url);
   const $ = cheerio.load(response.data);
   var oddsForTeam = [];
+
+  $('.category.font-sf-ui-display-medium.my-auto.pl-3').each((_idx, el) => {
+    var weekString = $(el).text().trim();
+    var secondToLastChar = weekString.charAt((weekString.length - 2));
+    if(secondToLastChar === '1')
+    {
+      week = weekString.substr((weekString.length - 2), (weekString.length - 1));
+    }
+    else
+    {
+      week = weekString.substr(weekString.length - 1);
+    }
+  });
 
 
 
@@ -66,7 +84,7 @@ const getVegasTable = async (url) => {
     {
       let offer = {
         'bookmaker': bookies[j],
-        'pointSpread': odds[i][j*2],
+        'spread': odds[i][j*2],
         'odds': odds[i][(j*2)+1]
       };
       oddsWithBookies.push(offer);
@@ -78,29 +96,58 @@ const getVegasTable = async (url) => {
   for(let i = 0; i < teams.length; i += 2)
   {
     let game = {
-      'awayTeam': teams[i],
-      'homeTeam': teams[i+1],
-      'awayOdds': finalOdds[i],
-      'homeOdds': finalOdds[i+1]
+      'away_team': teams[i],
+      'home_team': teams[i+1],
+      'away_spread': finalOdds[i],
+      'home_spread': finalOdds[i+1]
     };
     weekOfGames.push(game);
   }
 
+  for(let i = 0; i < weekOfGames.length; ++i)
+  {
+    for(let j = 0; j < bookies.length; ++j)
+    {
+      let spread1 = {
+        'week': week,
+        'team': weekOfGames[i].away_team,
+        'opponent': weekOfGames[i].home_team,
+        'spread': weekOfGames[i].away_spread[j].spread,
+        'odds': weekOfGames[i].away_spread[j].odds,
+        'bookmaker': weekOfGames[i].away_spread[j].bookmaker
+      }
+      let spread2 = {
+        'week': week,
+        'team': weekOfGames[i].home_team,
+        'opponent': weekOfGames[i].away_team,
+        'spread': weekOfGames[i].home_spread[j].spread,
+        'odds': weekOfGames[i].home_spread[j].odds,
+        'bookmaker': weekOfGames[i].home_spread[j].bookmaker
+      }
+      spreads.push(spread1);
+      spreads.push(spread2);
+    }
+  }
+
   
-  return weekOfGames;
+  return spreads;
 };
 
 async function testGetVegasTable() {
   const results = await getVegasTable('https://www.vegasinsider.com/nfl/odds/las-vegas/');
-  const writeStream = fs.createWriteStream('./currentWeekGames.json', {encoding: 'utf8'});
-  for(let i = 0; i < weekOfGames.length; ++i)
+  const writeStream = fs.createWriteStream('./weekOfSpreads.json', {encoding: 'utf8'});
+  writeStream.write(JSON.stringify(spreads));
+  /*
+  for(let i = 0; i < spreads.length; ++i)
   {
-    writeStream.write(JSON.stringify(weekOfGames[i]) + '\n');
+    writeStream.write(JSON.stringify(spreads[i]) + '\n');
   }
+  */
   /*
   const writeStream = fs.createWriteStream('./currentWeekGames.txt', {encoding: 'utf8'});
   for(let i = 0; i < weekOfGames.length; ++i)
   {
+    writeStream.write("WEEK " + week + '\n');
     writeStream.write("GAME " + (i+1) + '\n');
     writeStream.write("Away Team: " + weekOfGames[i].awayTeam + '\n');
     writeStream.write("Home Team: " + weekOfGames[i].homeTeam + '\n');
