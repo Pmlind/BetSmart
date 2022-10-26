@@ -4,7 +4,7 @@ Scripts used to fetch odds and sync them with the database
 
 ## Prerequisites/Installation
 
-I believe there are currently some dependency/package issues with npm. Running 'npm install axios cheerio readline' should make the scripts work but may break other node programs in the repo. 
+I believe there are currently some dependency/package issues with npm. Running 'npm install axios cheerio' should make the scripts work but may break other node programs in the repo. 
 
 
 ## Running the scripts
