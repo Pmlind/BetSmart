@@ -1,0 +1,264 @@
+https://www.usatoday.com/story/sports/nfl/2022/09/08/nfl-week-1-picks-moneylines-point-spreads-over-under/8024605001/
+https://www.usatoday.com/story/sports/nfl/2022/09/18/nfl-week-2-odds-moneylines-point-spreads-over-under/10414508002/
+https://www.usatoday.com/story/sports/nfl/2022/09/21/nfl-week-3-odds-moneylines-point-spreads-over-under/8066239001/
+https://www.usatoday.com/story/sports/nfl/2022/09/29/nfl-week-4-odds-moneylines-point-spreads-over-under/10454389002/
+https://www.usatoday.com/story/sports/nfl/2022/10/05/nfl-week-5-odds-moneylines-point-spreads-over-under/8180929001/
+
+let teams = [
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Rams",
+        "Name": "Los Angeles Rams "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Seahawks",
+        "Name": "Seattle Seahawks "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "49ers",
+        "Name": "San Francisco 49ers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Cardinals",
+        "Name": "Arizona Cardinals "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Chiefs",
+        "Name": "Kansas City Chiefs "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Raiders",
+        "Name": "Las Vegas Raiders "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Chargers",
+        "Name": "Los Angeles Chargers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Broncos",
+        "Name": "Denver Broncos "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Buccaneers",
+        "Name": "Tampa Bay Buccaneers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Saints",
+        "Name": "New Orleans Saints "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Falcons",
+        "Name": "Atlanta Falcons "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Panthers",
+        "Name": "Carolina Panthers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Texans",
+        "Name": "Houston Texans "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Titans",
+        "Name": "Tennessee Titans "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Colts",
+        "Name": "Indianapolis Colts "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Jaguars",
+        "Name": "Jacksonville Jaguars "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Packers",
+        "Name": "Green Bay Packers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Vikings",
+        "Name": "Minnesota Vikings "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Bears",
+        "Name": "Chicago Bears "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Lions",
+        "Name": "Detroit Lions "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Browns",
+        "Name": "Cleveland Browns "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Bengals",
+        "Name": "Cincinnati Bengals "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Steelers",
+        "Name": "Pittsburgh Steelers "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Ravens",
+        "Name": "Baltimore Ravens "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Cowboys",
+        "Name": "Dallas Cowboys "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Eagles",
+        "Name": "Philadelphia Eagles "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Giants",
+        "Name": "New York Giants "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Commanders",
+        "Name": "Washington Commanders "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Dolphins",
+        "Name": "Miami Dolphins "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Patriots",
+        "Name": "New England Patriots "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Bills",
+        "Name": "Buffalo Bills "
+    },
+    {
+        "Games": 0,
+        "Score": 0,
+        "WeightedScore": 0,
+        "ATS": 0,
+        "Mascot": "Jets",
+        "Name": "New York Jets "
+    }
+];

@@ -1,144 +1,89 @@
 const jsdom = require("jsdom");
 const request = require('request');
 var fs = require('fs');
-const reader = require('xlsx');
-const teamsFile = reader.readFile('./Teams.xlsx');
-const spreadsFile = reader.readFile('./Spreads.xlsx');
-const picksFile = reader.readFile('./Picks.xlsx');
+var mysql = require('mysql');
 
-let teams = [];
-let spreads = [];
-let picks = [];
+var con = mysql.createConnection({
+    host: 'betsmart.c4vgirc2flsl.us-east-1.rds.amazonaws.com',
+    user: 'admin',
+    password: 'Password1',
+    database: 'BetSmart'
+});
 
-function read()
+function pick(res,opp)
 {
-    const t = reader.utils.sheet_to_json(teamsFile.Sheets["Sheet1"]);
-    t.forEach((res) => {
-        teams.push(res);
-    })
-    const sp = reader.utils.sheet_to_json(spreadsFile.Sheets["Sheet1"]);
-    sp.forEach((res) => {
-        spreads.push(res);
-    })
-    const p = reader.utils.sheet_to_json(picksFile.Sheets["Sheet1"]);
-    p.forEach((res) => {
-        picks.push(res);
-    })
-}
-
-function findTeam(team)
-{
-    return teams.find(obj => {
-        return (obj.Name + " ") === team;
-    })
-}
-
-function pick(week)
-{
-    for(const game of spreads)
+    var picks = [];
+    reg = (res.scores/res.games) + res.spread - (opp.scores/opp.games);
+    weight = (res.weightedscore/res.games) + res.spread - (opp.weightedscore/opp.games);
+    ats = (res.ats/res.games) + res.games - (opp.ats/opp.games);
+    console.log(res.spread);
+    if(reg >= 10)
     {
-        var reg;
-        var weight;
-        var ats;
-        let line = {
-            Week: 0,
-            Type: "",
-            Team: "",
-            Spread: 0,
-            By: 0,
-            Inj: "",
-            Hit: ""
-        };
-        if(game.Week == week)
-        {
-            reg = (findTeam(game.AwayTeam).Score/findTeam(game.AwayTeam).Games) + Number(game.AwaySpread) - (findTeam(game.HomeTeam).Score/findTeam(game.HomeTeam).Games);
-            weight = (findTeam(game.AwayTeam).WeightedScore/findTeam(game.AwayTeam).Games) + Number(game.AwaySpread) - (findTeam(game.HomeTeam).WeightedScore/findTeam(game.HomeTeam).Games);
-            ats = (findTeam(game.AwayTeam).ATS/findTeam(game.AwayTeam).Games) + Number(game.AwaySpread) - (findTeam(game.HomeTeam).ATS/findTeam(game.HomeTeam).Games);
-            if(reg >= 10)
-            {
-                line.Week = week;
-                line.Type = "Regular:";
-                line.Team = findTeam(game.AwayTeam).Name;
-                line.Spread = Number(game.AwaySpread);
-                line.By = reg;
-                picks.push(line);
-            }
-            else if(reg <= -10)
-            {
-                line.Week = week;
-                line.Type = "Regular:";
-                line.Team = findTeam(game.HomeTeam).Name;
-                line.Spread = Number(game.HomeSpread);
-                line.By = (reg * -1);
-                picks.push(line);
-            }
-            line = {
-                Week: 0,
-                Type: "",
-                Team: "",
-                Spread: 0,
-                By: 0,
-                Inj: "",
-                Hit: ""
-            };
-            if(weight >= 10)
-            {
-                line.Week = week;
-                line.Type = "Weighted:";
-                line.Team = findTeam(game.AwayTeam).Name;
-                line.Spread = Number(game.AwaySpread);
-                line.By = weight;
-                picks.push(line);
-            }
-            else if(weight <= -10)
-            {
-                line.Week = week;
-                line.Type = "Weighted:";
-                line.Team = findTeam(game.HomeTeam).Name;
-                line.Spread = Number(game.HomeSpread);
-                line.By = (weight * -1);
-                picks.push(line);
-            }
-            line = {
-                Week: 0,
-                Type: "",
-                Team: "",
-                Spread: 0,
-                By: 0,
-                Inj: "",
-                Hit: ""
-            };
-            if(ats >= 10)
-            {
-                line.Week = week;
-                line.Type = "ATS:";
-                line.Team = findTeam(game.AwayTeam).Name;
-                line.Spread = Number(game.AwaySpread);
-                line.By = ats;
-                picks.push(line);
-            }
-            else if(ats <= -10)
-            {
-                line.Week = week;
-                line.Type = "ATS:";
-                line.Team = findTeam(game.HomeTeam).Name;
-                line.Spread = Number(game.HomeSpread);
-                line.By = (ats * -1);
-                picks.push(line);
-            }
-        }
+        var pick = []
+        pick.push(res.week);
+        pick.push('Regular:');
+        pick.push(res.team);
+        pick.push(res.spread);
+        pick.push(Math.abs(reg));
+        pick.push(0);
+        pick.push(null);
+        picks.push(pick);
     }
-    const ws = reader.utils.json_to_sheet(picks);
-    const wb = reader.utils.book_new()
-    reader.utils.book_append_sheet(wb,ws,"Sheet1");
-    reader.writeFile(wb,'./Picks.xlsx');
+    if(weight >= 10)
+    {
+        var pick = []
+        pick.push(res.week);
+        pick.push('Weighted:');
+        pick.push(res.team);
+        pick.push(res.spread);
+        pick.push(Math.abs(weight));
+        pick.push(0);
+        pick.push(null);
+        picks.push(pick);
+    }
+    if(ats >= 10)
+    {
+        var pick = []
+        pick.push(res.week);
+        pick.push('ATS:');
+        pick.push(res.team);
+        pick.push(res.spread);
+        pick.push(Math.abs(ats));
+        pick.push(0);
+        pick.push(null);
+        picks.push(pick);
+    }
+    return picks;
 }
 
 function run(week)
 {
-    read();
-    pick(week);
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        sql = `SELECT * FROM TEAMS, SPREAD WHERE SPREAD.week = ${week} AND SPREAD.bookmaker = 'caesars-sportsbook' AND TEAMS.names = SPREAD.team;`;
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            for(const i of result)
+            {
+                sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${i.opponent}';`;
+                con.query(sql, function (err, result2) {
+                    if (err) throw err;
+                    for(const x of pick(i, result2[0]))
+                    {
+                        var sql = "INSERT INTO PICKS (week,picktype,team,spread,spreadby,inj,hit) VALUES (?)";
+                        con.query(sql, [x], function (err, result) {
+                            if (err) throw err;
+                            console.log("Number of records inserted: " + result.affectedRows);
+                        });
+                    }
+                });
+            }
+            //console.log(result);
+        });
+    });
+    //pick(week);
 }
 
-run(5);
+run(8);
     

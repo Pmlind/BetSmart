@@ -2,353 +2,400 @@ const jsdom = require("jsdom");
 const request = require('request');
 var fs = require('fs');
 const reader = require('xlsx');
-const spreadsFile = reader.readFile('./Spreads.xlsx');
-const picksFile = reader.readFile('./Picks.xlsx');
-const scoresFile = reader.readFile('./Scores.xlsx');
-const statsFile = reader.readFile('./Stats.xlsx');
+var mysql = require('mysql');
 
-let picks = [];
-let teams = [];
-let stats = [];
+var con = mysql.createConnection({
+    host: 'betsmart.c4vgirc2flsl.us-east-1.rds.amazonaws.com',
+    user: 'admin',
+    password: 'Password1',
+    database: 'BetSmart'
+});
 
-function findTeam(team)
+var scores = [];
+var teams = [];
+
+function scoreScraper(week)
 {
-    return teams.find(obj => {
-        return obj.Team === (team+" ");
-    })
+    var url = `https://www.pro-football-reference.com/years/2022/week_${week}.htm`;
+    return new Promise((resolve, reject) => {
+        request(url, function (
+            error,
+            response,
+            body
+        ){
+            console.error('error:', error)
+            const dom = new jsdom.JSDOM(body);
+            gameSum = dom.window.document.querySelector(".game_summaries");
+            games = gameSum.querySelectorAll(".teams");
+            for (const game of games)
+            {
+                let line = []
+                line.push(week)
+                try
+                {
+                    line.push(game.querySelector(".winner").cells[0].textContent);
+                    line.push(Number(game.querySelector(".winner").cells[1].textContent));
+                    line.push(game.querySelector(".loser").cells[0].textContent);
+                    line.push(Number(game.querySelector(".loser").cells[1].textContent));
+                }
+                catch (error) 
+                {
+                    line.push(game.querySelectorAll(".draw")[0].cells[0].textContent);
+                    line.push(Number(game.querySelectorAll(".draw")[0].cells[1].textContent));
+                    line.push(game.querySelectorAll(".draw")[1].cells[0].textContent);
+                    line.push(Number(game.querySelectorAll(".draw")[0].cells[1].textContent));
+                }
+                scores.push(line)
+            }
+            resolve();
+        });
+    });
 }
 
-function findStatLine(by)
+function check(picks)
 {
-    return stats.find(obj => {
-        return obj.By === by;
-    })
-}
-
-function read(week)
-{
-    const p = reader.utils.sheet_to_json(picksFile.Sheets["Sheet1"]);
-    p.forEach((res) => {
-        picks.push(res);
-    })
-    const st = reader.utils.sheet_to_json(statsFile.Sheets["Sheet1"]);
-    st.forEach((res) => {
-        stats.push(res);
-    })
-    const sp = reader.utils.sheet_to_json(spreadsFile.Sheets["Sheet1"]);
-    sp.forEach((res) => {
-        if(res.Week == week)
-        {
-            let aTemp = {
-                Team: res.AwayTeam,
-                Spread: res.AwaySpread,
-                Diff: 0,
-                Reg: 0,
-                W: 0,
-                ATS: 0,
-                Hit: 0
-            };
-            let hTemp = {
-                Team: res.HomeTeam,
-                Spread: res.HomeSpread,
-                Diff: 0,
-                Reg: 0,
-                W: 0,
-                ATS: 0,
-                Hit: 0
-            };
-            teams.push(aTemp);
-            teams.push(hTemp);
-        }
-    })
-    const sc = reader.utils.sheet_to_json(scoresFile.Sheets["Sheet1"]);
-    sc.forEach((res) => {
-        if(res.Week == week)
-        {
-            findTeam(res.Team1).Diff = (Number(res.Team1Score) - Number(res.Team2Score));
-            findTeam(res.Team2).Diff = (Number(res.Team2Score) - Number(res.Team1Score));
-        }
-    })
-}
-
-function check(week)
-{
+    hits = [];
     for(const pick of picks)
     {
-        if(pick.Week == week)
+        if(pick.team == pick.team1)
         {
-            if(findTeam(pick.Team).Diff + Number(findTeam(pick.Team).Spread) > 0)
+            if((Number(pick.team1scores) - Number(pick.team2scores)) + Number(pick.spread) > 0)
             {
-                pick.Hit = '+';
+                hits.push(1);
             }
-            else if(findTeam(pick.Team).Diff + Number(findTeam(pick.Team).Spread) < 0)
+            else if((Number(pick.team1scores) - Number(pick.team2scores)) + Number(pick.spread) < 0)
             {
-                pick.Hit = 'x';
+                hits.push(0);
             }
-            else if(findTeam(pick.Team).Diff + Number(findTeam(pick.Team).Spread) == 0)
+            else if((Number(pick.team1scores) - Number(pick.team2scores)) + Number(pick.spread) == 0)
             {
-                pick.Hit = '=';
+                hits.push(null);
+            }
+        }
+        else if(pick.team == pick.team2)
+        {
+            if((Number(pick.team2scores) - Number(pick.team1scores)) + Number(pick.spread) > 0)
+            {
+                hits.push(1);
+            }
+            else if((Number(pick.team2scores) - Number(pick.team1scores)) + Number(pick.spread) < 0)
+            {
+                hits.push(0);
+            }
+            else if((Number(pick.team2scores) - Number(pick.team1scores)) + Number(pick.spread) == 0)
+            {
+                hits.push(null);
             }
         }
     }
-    const ws = reader.utils.json_to_sheet(picks);
-    const wb = reader.utils.book_new()
-    reader.utils.book_append_sheet(wb,ws,"Sheet1");
-    reader.writeFile(wb,'./Picks.xlsx');
+    return hits;
 }
 
-function update(week)
+function update(pick, type)
 {
-    //Reg10	W10	ATS10	RW10	RA10	WA10	RWA10	Reg20	W20	ATS20	RW20	RA20	WA20	RWA20
-
-    for(const pick of picks)
+    sql = `UPDATE STATS SET `
+    if(type == "Regular:")
     {
-        if(pick.Hit == "+")
+        sql += `RegTotal = RegTotal + 1 `;
+        if(pick.hit == 1)
         {
-            findTeam(pick.Team).Hit = 1;
+            sql += `, RegHits = RegHits + 1 `;
         }
-        else if(pick.Hit == "x")
+        if(pick.spreadby >= 20)
         {
-            findTeam(pick.Team).Hit = -1;
+            sql += `WHERE spreadby = '20+'`;
         }
-        else if(pick.Hit == "=")
+        else
         {
-            findTeam(pick.Team).Hit = 0;
-        }
-        if(pick.Week == week)
-        {
-            if(pick.Type == "Regular:")
-            {
-                if(Number(pick.By) < 20)
-                {
-                    findTeam(pick.Team).Reg = 1;
-                }
-                else
-                {
-                    findTeam(pick.Team).Reg = 2;
-                }
-            }
-            if(pick.Type == "Weighted:")
-            {
-                if(Number(pick.By) < 20)
-                {
-                    findTeam(pick.Team).W = 1;
-                }
-                else
-                {
-                    findTeam(pick.Team).W = 2;
-                }
-            }
-            if(pick.Type == "ATS:")
-            {
-                if(Number(pick.By) < 20)
-                {
-                    findTeam(pick.Team).ATS = 1;
-                }
-                else
-                {
-                    findTeam(pick.Team).ATS = 2;
-                }
-            }
+            sql += `WHERE spreadby = '10+'`;
         }
     }
-    console.log(teams);
-    for(const team of teams)
+    else if(type == "Weighted:")
     {
-        if(team.Reg == 1)
+        sql += `WTotal = WTotal + 1 `;
+        if(pick.hit == 1)
         {
-            findStatLine("10+").RegTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").RegHits++;
-                findStatLine("$").RegHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RegHits -= 11;
-            }
+            sql += `, WHits = WHits + 1 `;
         }
-        else if(team.Reg == 2)
+        if(pick.spreadby >= 20)
         {
-            findStatLine("20+").RegTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").RegHits++;
-                findStatLine("$").RegHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RegHits -= 22;
-            }
+            sql += `WHERE spreadby = '20+'`;
         }
-        if(team.W == 1)
+        else
         {
-            findStatLine("10+").WTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").WHits++;
-                findStatLine("$").WHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").WHits -= 11;
-            }
-        }
-        else if(team.W == 2)
-        {
-            findStatLine("20+").WTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").WHits++;
-                findStatLine("$").WHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").WHits -= 22;
-            }
-        }
-        if(team.ATS == 1)
-        {
-            findStatLine("10+").ATSTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").ATSHits++;
-                findStatLine("$").ATSHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").ATSHits -= 11;
-            }
-        }
-        else if(team.ATS == 2)
-        {
-            findStatLine("20+").ATSTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").ATSHits++;
-                findStatLine("$").ATSHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").ATSHits -= 22;
-            }
-        }
-        if(team.Reg == 2 && team.W == 2)
-        {
-            findStatLine("20+").RWTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").RWHits++;
-                findStatLine("$").RWHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RWHits -= 22;
-            }
-        }
-        else if(team.Reg > 0 && team.W > 0)
-        {
-            findStatLine("10+").RWTotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").RWHits++;
-                findStatLine("$").RWHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RWHits -= 11;
-            }
-        }
-        if(team.Reg == 2 && team.ATS == 2)
-        {
-            findStatLine("20+").RATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").RAHits++;
-                findStatLine("$").RAHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RAHits -= 22;
-            }
-        }
-        else if(team.Reg > 0 && team.ATS > 0)
-        {
-            findStatLine("10+").RATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").RAHits++;
-                findStatLine("$").RAHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RAHits -= 11;
-            }
-        }
-        if(team.W == 2 && team.ATS == 2)
-        {
-            findStatLine("20+").WATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").WAHits++;
-                findStatLine("$").WAHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").WAHits -= 22;
-            }
-        }
-        else if(team.W > 0 && team.ATS > 0)
-        {
-            findStatLine("10+").WATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").WAHits++;
-                findStatLine("$").WAHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").WAHits -= 11;
-            }
-        }
-        if(team.Reg == 2 && team.W == 2 && team.ATS == 2)
-        {
-            findStatLine("20+").RWATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("20+").RWAHits++;
-                findStatLine("$").RWAHits += 20;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RWAHits -= 22;
-            }
-        }
-        else if(team.Reg > 0 && team.W > 0 && team.ATS > 0)
-        {
-            findStatLine("10+").RWATotal++;
-            if(team.Hit == 1)
-            {
-                findStatLine("10+").RWAHits++;
-                findStatLine("$").RWAHits += 10;
-            }
-            else if(team.Hit == -1)
-            {
-                findStatLine("$").RWAHits -= 11;
-            }
+            sql += `WHERE spreadby = '10+'`;
         }
     }
-    const ws = reader.utils.json_to_sheet(stats);
-    const wb = reader.utils.book_new()
-    reader.utils.book_append_sheet(wb,ws,"Sheet1");
-    reader.writeFile(wb,'./Stats.xlsx');
+    else if(type == "ATS:")
+    {
+        sql += `ATSTotal = ATSTotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, ATSHits = ATSHits + 1 `;
+        }
+        if(pick.spreadby >= 20)
+        {
+            sql += `WHERE spreadby = '20+'`;
+        }
+        else
+        {
+            sql += `WHERE spreadby = '10+'`;
+        }
+    }
+    else if(type == "RW1")
+    {
+        sql += `RWTotal = RWTotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RWHits = RWHits + 1 `;
+        }
+        sql += `WHERE spreadby = '10+'`;
+    }
+    else if(type == "RW2")
+    {
+        sql += `RWTotal = RWTotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RWHits = RWHits + 1 `;
+        }
+        sql += `WHERE spreadby = '20+'`;
+    }
+    else if(type == "RA1")
+    {
+        sql += `RATotal = RATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RAHits = RAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '10+'`;
+    }
+    else if(type == "RA2")
+    {
+        sql += `RATotal = RATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RAHits = RAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '20+'`;
+    }
+    else if(type == "WA1")
+    {
+        sql += `WATotal = WATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, WAHits = WAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '10+'`;
+    }
+    else if(type == "WA2")
+    {
+        sql += `WATotal = WATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, WAHits = WAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '20+'`;
+    }
+    else if(type == "RWA1")
+    {
+        sql += `RWATotal = RWATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RWAHits = RWAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '10+'`;
+    }
+    else if(type == "RWA2")
+    {
+        sql += `RWATotal = RWATotal + 1 `;
+        if(pick.hit == 1)
+        {
+            sql += `, RWAHits = RWAHits + 1 `;
+        }
+        sql += `WHERE spreadby = '20+'`;
+    }
+    sql += "; ";
+    return sql;
 }
 
-function run(week)
+function updateTeams(team, game, opponent)
 {
-    read(week);
-    check(week);
-    update(week);
+    var sql = `UPDATE TEAMS SET `;
+    var diff;
+    var weight;
+    var ats;
+    if(team.names == game.team1)
+    {
+        diff = game.team1scores - game.team2scores;
+    }
+    else if(team.names == game.team2)
+    {
+        diff = game.team2scores - game.team1scores;
+    }
+    sql += `scores = scores + ${diff} `;
+    if(team.games == 0)
+    {
+        weight = diff;
+    }
+    else
+    {
+        weight = diff + (opponent.scores/opponent.games) - (team.scores/team.games);
+    }
+    sql += `, weightedscore = weightedscore + ${weight} `;
+    ats = diff + team.spread;
+    sql += `, ATS = ATS + ${ats}, games = games +1 WHERE TEAMS.names = '${team.team}';`
+    return sql;
 }
 
-run(5);
+async function run(week)
+{
+    //read();
+    await scoreScraper(week);
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var sql = "INSERT INTO SCORES (week,team1,team1scores,team2,team2scores) VALUES ?";
+        con.query(sql, [scores], function (err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+        });
+        sql = `SELECT * FROM PICKS, SCORES WHERE (PICKS.week = ${week} AND SCORES.week = ${week}) AND (PICKS.team = SCORES.team1 OR PICKS.team = SCORES.team2);`;
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            var hits = check(result);
+            for(const i in hits)
+            {
+                sql = `UPDATE PICKS SET hit = ${hits[i]} WHERE (week = ${week} AND picktype = '${result[i].picktype}') AND team = '${result[i].team}';`
+                con.query(sql, function (err, result) {
+                    if (err) throw err;
+                    console.log("Number of records inserted: " + result.affectedRows);
+                });
+                if(!teams.includes(result[i].team))
+                {
+                    teams.push(result[i].team);
+                }
+            }
+            for(const i of teams)
+            {
+                sql = `SELECT * FROM PICKS WHERE PICKS.week = ${week} AND PICKS.team = '${i}';`;
+                con.query(sql, function (err, result) {
+                    if (err) throw err;
+                    if(result.length == 1)
+                    {
+                        sql = update(result[0], result[0].picktype);
+                        con.query(sql, function (err, result) {
+                            if (err) throw err;
+                            console.log("Number of records inserted: " + result.affectedRows);
+                        });
+                    }
+                    else if(result.length == 2)
+                    {
+                        for(const x of result)
+                        {
+                            sql = update(x, x.picktype);
+                            con.query(sql, function (err, result) {
+                                if (err) throw err;
+                                console.log("Number of records inserted: " + result.affectedRows);
+                            });
+                            console.log(sql);
+                        }
+                        if(result[0].picktype == 'Regular:' && result[1].picktype == 'Weighted:')
+                        {
+                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                            {
+                                sql = update(result[0], 'RW2');
+                            }
+                            else
+                            {
+                                sql = update(result[0], 'RW1');
+                            }
+                        }
+                        else if(result[0].picktype == 'Regular:' && result[1].picktype == 'ATS:')
+                        {
+                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                            {
+                                sql = update(result[0], 'RA2');
+                            }
+                            else
+                            {
+                                sql = update(result[0], 'RA1');
+                            }
+                        }
+                        else if(result[0].picktype == 'Weighted:' && result[1].picktype == 'ATS:')
+                        {
+                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                            {
+                                sql = update(result[0], 'WA2');
+                            }
+                            else
+                            {
+                                sql = update(result[0], 'WA1');
+                            }
+                        }
+                        con.query(sql, function (err, result) {
+                            if (err) throw err;
+                            console.log("Number of records inserted: " + result.affectedRows);
+                        });
+                    }
+                    else if(result.length == 3)
+                    {
+                        for(const x of result)
+                        {
+                            sql = update(x, x.picktype);
+                            con.query(sql, function (err, result) {
+                                if (err) throw err;
+                                console.log("Number of records inserted: " + result.affectedRows);
+                            });
+                            console.log(sql)
+                        }
+                        if(result[0].spreadby >= 20 && result[1].spreadby >= 20 && result[2].spreadby >= 20)
+                        {
+                            sql = update(result[0], 'RWA2');
+                        }
+                        else
+                        {
+                            sql = update(result[0], 'RWA1');
+                        }
+                        con.query(sql, function (err, result) {
+                            if (err) throw err;
+                            console.log("Number of records inserted: " + result.affectedRows);
+                        });
+                    }
+                    console.log(sql);
+                });
+            }
+        });
+        /*sql = `UPDATE TEAMS SET games = 0,  scores = 0, weightedscore = 0, ats = 0;`;
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+        });*/
+        sql = `SELECT * FROM TEAMS,SPREAD WHERE SPREAD.week = ${week} AND SPREAD.bookmaker = 'caesars-sportsbook' AND SPREAD.team = TEAMS.names;`;
+        con.query(sql, function (err, result) {
+            if (err) throw err;
+            for(const x of result)
+            {
+                sql = `SELECT * FROM SCORES WHERE SCORES.week = ${x.week} AND (SCORES.team1 = '${x.names}' OR SCORES.team2 = '${x.names}');`;
+                con.query(sql, function (err, result2) {
+                    if (err) throw err;
+                    sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${x.opponent}';`;
+                    con.query(sql, function (err, result3) {
+                        if (err) throw err;
+                        if(result2.length > 0)
+                        {
+                            sql = updateTeams(x,result2[0],result3[0]);
+                            console.log(sql);
+                            con.query(sql, function (err, result3) {
+                                if (err) throw err;
+                                //console.log(sql);
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+    //con.end();
+}
+
+run(8);
