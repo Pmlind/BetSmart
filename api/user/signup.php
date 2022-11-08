@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="../../assets/css/style.css">
+<body>
+		<div style="width:800px; margin:100px auto; color:white;">
 <?php
 $db = new mysqli("betsmart.c4vgirc2flsl.us-east-1.rds.amazonaws.com:3306","admin","Password1","BetSmart");
 
@@ -18,15 +20,15 @@ $uec = $uecresult->fetch_assoc();
 
 if($uec == NULL){
 	if($db->query($adduserQuery)){
-		 echo "<p>Welcome to BetSmart, $username!</p>
-		 <p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+		 echo "<p style='font-size:30px;'>Welcome to BetSmart, $username!</p>
+		 <p>You will be redirected in <span id='counter'>5</span> second(s).</p>
 					<script type='text/javascript'>
 						function countdown() {
 							var i = document.getElementById('counter');
 							if (parseInt(i.innerHTML)>0) {
 								i.innerHTML = parseInt(i.innerHTML)-1;
 							}else{
-								window.location='../../mockfrontend.html';
+								window.location='../../index.html';
 							}
 						}
 						setInterval(function(){ countdown(); },1000);
@@ -48,7 +50,7 @@ if($uec == NULL){
 					</script>";
 	}
 }
-else echo "<p>User $username already exists! Please try again!</p>
+else echo "<p style='font-size:25px;'>User $username already exists! Please try again!</p>
 			<p>You will be redirected in <span id='counter'>4</span> second(s).</p>
 					<script type='text/javascript'>
 						function countdown() {
@@ -65,3 +67,5 @@ else echo "<p>User $username already exists! Please try again!</p>
 $db->close();
 
 ?>
+</div>
+</body>
