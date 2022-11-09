@@ -79,11 +79,10 @@ function run(week)
                     }
                 });
             }
-            //console.log(result);
         });
     });
-    //pick(week);
+    console.log("DONE");
 }
 
-run(8);
+run(9);
     

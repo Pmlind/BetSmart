@@ -248,23 +248,26 @@ function updateTeams(team, game, opponent)
 }
 
 async function run(week)
-{
-    //read();
+{   
+    //Get scores from last week
     await scoreScraper(week);
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
+        //Insert recent scores to database
         var sql = "INSERT INTO SCORES (week,team1,team1scores,team2,team2scores) VALUES ?";
         con.query(sql, [scores], function (err, result) {
             if (err) throw err;
             console.log("Number of records inserted: " + result.affectedRows);
         });
+        //get scores from DB of games that were picked
         sql = `SELECT * FROM PICKS, SCORES WHERE (PICKS.week = ${week} AND SCORES.week = ${week}) AND (PICKS.team = SCORES.team1 OR PICKS.team = SCORES.team2);`;
         con.query(sql, function (err, result) {
             if (err) throw err;
             var hits = check(result);
             for(const i in hits)
             {
+                //update success of picks in PICKS table
                 sql = `UPDATE PICKS SET hit = ${hits[i]} WHERE (week = ${week} AND picktype = '${result[i].picktype}') AND team = '${result[i].team}';`
                 con.query(sql, function (err, result) {
                     if (err) throw err;
@@ -277,7 +280,8 @@ async function run(week)
             }
             for(const i of teams)
             {
-                sql = `SELECT * FROM PICKS WHERE PICKS.week = ${week} AND PICKS.team = '${i}';`;
+                //get all recent picks, use them to update STATS table
+                sql = `SELECT * FROM PICKS WHERE PICKS.week = ${week} AND PICKS.team = '${i}' AND PICKS.inj = 0;`;
                 con.query(sql, function (err, result) {
                     if (err) throw err;
                     if(result.length == 1)
@@ -365,37 +369,49 @@ async function run(week)
                 });
             }
         });
-        /*sql = `UPDATE TEAMS SET games = 0,  scores = 0, weightedscore = 0, ats = 0;`;
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
-        });*/
-        sql = `SELECT * FROM TEAMS,SPREAD WHERE SPREAD.week = ${week} AND SPREAD.bookmaker = 'caesars-sportsbook' AND SPREAD.team = TEAMS.names;`;
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            for(const x of result)
-            {
-                sql = `SELECT * FROM SCORES WHERE SCORES.week = ${x.week} AND (SCORES.team1 = '${x.names}' OR SCORES.team2 = '${x.names}');`;
-                con.query(sql, function (err, result2) {
-                    if (err) throw err;
-                    sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${x.opponent}';`;
-                    con.query(sql, function (err, result3) {
+        if(week == 0)
+        {
+            //reset teams stats
+            sql = `UPDATE TEAMS SET games = 0,  scores = 0, weightedscore = 0, ats = 0;`;
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+                console.log("Number of records inserted: " + result.affectedRows);
+            });
+        }
+        else
+        {
+            //get teams and spreads
+            sql = `SELECT * FROM TEAMS,SPREAD WHERE SPREAD.week = ${week} AND SPREAD.bookmaker = 'caesars-sportsbook' AND SPREAD.team = TEAMS.names;`;
+            con.query(sql, function (err, result) {
+                if (err) throw err;
+                for(const x of result)
+                {
+                    //get scores
+                    sql = `SELECT * FROM SCORES WHERE SCORES.week = ${x.week} AND (SCORES.team1 = '${x.names}' OR SCORES.team2 = '${x.names}');`;
+                    con.query(sql, function (err, result2) {
                         if (err) throw err;
-                        if(result2.length > 0)
-                        {
-                            sql = updateTeams(x,result2[0],result3[0]);
-                            console.log(sql);
-                            con.query(sql, function (err, result3) {
-                                if (err) throw err;
-                                //console.log(sql);
-                            });
-                        }
+                        //get opponent's stats
+                        sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${x.opponent}';`;
+                        con.query(sql, function (err, result3) {
+                            if (err) throw err;
+                            if(result2.length > 0)
+                            {
+                                //update teams with point and ats differentials from recent week
+                                sql = updateTeams(x,result2[0],result3[0]);
+                                console.log(sql);
+                                con.query(sql, function (err, result3) {
+                                    if (err) throw err;
+                                });
+                            }
+                        });
                     });
-                });
-            }
-        });
+                }
+            });
+        }
     });
-    //con.end();
+    console.log("DONE");
 }
 
-run(8);
+//PASS IN RECENT WEEK ONLY WHEN ALL GAMES ARE CONDLUDED
+//DO NOT RUN TWICE
+run(9);
