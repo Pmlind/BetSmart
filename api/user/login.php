@@ -19,14 +19,15 @@ if($user!=NULL){
 	if($user['psswrd'] == $password){
 		$db->query($updateloginQuery);
 		echo "<p style='font-size:50px;'>Welcome back, $username!</p>
-			<p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+			<p>You will be redirected in <span id='counter'>3</span> second(s).</p>
 			<script type='text/javascript'>
+				user = true;
 				function countdown() {
 					var i = document.getElementById('counter');
 					if (parseInt(i.innerHTML)>0) {
 						i.innerHTML = parseInt(i.innerHTML)-1;
 					}else{
-						window.location='../../index.html';
+						window.location='./index.html';
 					}
 				}
 				setInterval(function(){ countdown(); },1000);
@@ -34,14 +35,14 @@ if($user!=NULL){
 	}
 	else{
 		echo "<p style='font-size:25px;'>Your password is incorrect! Please try again!</p>
-				<p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+				<p>You will be redirected in <span id='counter'>3</span> second(s).</p>
 					<script type='text/javascript'>
 						function countdown() {
 							var i = document.getElementById('counter');
 							if (parseInt(i.innerHTML)>0) {
 								i.innerHTML = parseInt(i.innerHTML)-1;
 							}else{
-								window.location='../../login.html';
+								window.location='./login.html';
 							}
 						}
 						setInterval(function(){ countdown(); },1000);
@@ -49,14 +50,14 @@ if($user!=NULL){
 	}
 }
 else echo "<p style='font-size:25px;'>You do not have an account with us yet! Please sign up first before logging in!</p>
-			<p>You will be redirected in <span id='counter'>4</span> second(s).</p>
+			<p>You will be redirected in <span id='counter'>3</span> second(s).</p>
 			<script type='text/javascript'>
 				function countdown() {
 					var i = document.getElementById('counter');
 					if (parseInt(i.innerHTML)>0) {
 						i.innerHTML = parseInt(i.innerHTML)-1;
 					}else{
-						window.location='../../login.html';
+						window.location='./login.html';
 					}
 				}
 				setInterval(function(){ countdown(); },1000);
