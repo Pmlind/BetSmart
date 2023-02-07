@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/n pm/mysql@2.0.0/index.js"></script>
+ 
+   <script src="index.js"></script>
   <link rel="stylesheet" href="./assets/css/style.css">
   <div class="topnav">
     <a class="active" href="#home">Home</a>
@@ -9,7 +13,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="https://sportsbook.draftkings.com/leagues/football/nfl">NFL</a>
+        <a onclick="NFL_page()">NFL</a>
         <a href="https://sportsbook.draftkings.com/leagues/basketball/nba">NBA</a>
       </div>
     </div> 
@@ -18,8 +22,8 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="#AllPicks">All</a>
-        <a href="#NFLPicks">NFL</a>
+        <a >All</a>
+        <a onclick="NFL_picks_fetch()">NFL</a>
         <a href="#NBAPicks">NBA</a>
       </div>
     </div> 
@@ -28,7 +32,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="login.html">Sign Out</a>
+        <a href="./login.html" id="sign-in-button">Sign In</a>
       </div>
     </div> 
   </div>
@@ -36,7 +40,57 @@
 <header>
 </header>
 <body>
-  <p class="home"></div>
+
+  <div class="body-page" id="NFL-picks">
+  </div>
+
+  <div class="body-page hidden" id="NFL">
+    <label class="tabs" onclick="toggle(this.nextElementSibling)">Coming soon</label>
+    <div class="upcoming-matches">
+        
+        <label class="m-title">Super Bowl LVII</label>
+        <label class="date">Sun, Feb 12, 5:30 PM</label>
+
+        <div class="match-teams">
+          <div class="team" id="team1">
+            <img class="logo " id="team1-logo">
+            <label class="team-name" id="team1-name">team 1</label>
+          </div>
+          <div class="team" id="team2">
+            <label class="team-name" id="team2-name">team 2</label>
+            <img class="logo" id="team2-logo">
+          </div>
+        </div>
+
+        <div class="match-stat">
+          <div style="width: 100px;"></div>
+          <div class="stat-col team1-stat">
+            <label class="stat">+1.5</label>
+            <label class="stat">O 50.5</label>
+            <label class="stat">+105</label>
+            <button>bet</button>
+          </div>
+          <div class="stat-col stat-name">
+            <label class="stat">SPREAD</label>
+            <label class="stat">TOTAL</label>
+            <label class="stat">MONEYLINE</label>
+            <label class="stat">BET</label>
+          </div>
+          <div class="stat-col team2-stat">
+            <label class="stat">-1.5</label>
+            <label class="stat">U 50.5</label>
+            <label class="stat">-125</label>
+            <button>bet</button>
+          </div>
+          <div style="width: 100px;"></div>
+        </div>
+      </div>
+
+      <label class="tabs hidden" id="fecthhistory" onclick="toggle(this.nextElementSibling);  display_history();">Match Results</label>
+      <div id="history-frame" class="hidden">
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
