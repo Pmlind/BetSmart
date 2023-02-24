@@ -1,0 +1,58 @@
+Regular: Kings +4.5 by 5.153846153846153 x
+Weighted: Kings +4.5 by 5.311230786563952 x
+
+Weighted: Kings +5 by 7.112379747994888 v
+Regular: Cavs +2.5 by 6.507936507936507 v
+Weighted: Cavs +2.5 by 5.114775061982446 v
+
+Regular: Magic +8 by 5.197849462365591 v
+Weighted: Magic +8 by 7.1187371097568946 v
+
+Weighted: Pistons +9.5 by 6.0866873115400555 x
+Regular: Pacers +6.5 by 6.84375 v
+Weighted: Pacers +6.5 by 6.575868673459878 v
+
+Regular: Jazz -4.5 by 5.145535714285714 x
+
+Weighted: Rockets +14.5 by 6.401595073499794 x
+
+Regular: OKC +1 by 6.915966386554621 x
+Weighted: OKC +1 by 6.431026288402088 x
+Weighted: Rockets +10 by 5.035627829914316 x
+
+Weighted: Pistons +9.5 by 6.252226483365288 x
+
+Regular: Wizards +8.5 by 8.264516129032257 x
+Weighted: Wizards +8.5 by 10.079573004230047* x
+Regular: Kings +3 by 5.230255839822024 v
+
+Regular: Knicks +3.5 by 7.437438905180841 v
+Weighted: Knicks +3.5 by 8.326706607549827 v
+Regular: Pistons +1 by 5.403714565004888 x
+
+Weighted: Magic +8  by 5 v
+
+Weighted: OKC +9.5 by 5 v
+
+Regular: OKC +4.5 by 5.2976190476190474 v
+Weighted: OKC +4.5 by 5.580669585741263 v
+
+Weighted: Warriors +8 by 5.952893935481882 v
+Regular: Nets +7.5 by 11.444594594594594* v
+
+Weighted: Pistons 11.5 by -7.42987029409158 x
+
+Weighted: Spurs +13.5 by 5 x
+
+Weighted: Magic +8.5 by 6.208772124299716 v
+
+Weighted: Hornets +11 by 5.697277615591959 v
+
+Regular: Nets +9 by 10.711366538952745* x
+
+Regular: OKC +4 by 8.112903225806452 x
+Weighted: OKC +4 by 8.106648754297924 x
+
+Regular: Kings +2 by 6.112903225806452 x
+Weighted: Kings +2 by 5.106648754297924 x
+

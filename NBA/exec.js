@@ -21,210 +21,240 @@ let teams = [
         "score": 0,
         "weightedScore": 0,
         "mascot": "Hawks",
-        "name": "Atlanta Hawks"
+        "name": "Atlanta Hawks",
+        "abreviation": "ATL"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Celtics",
-        "name": "Boston Celtics"
+        "name": "Boston Celtics",
+        "abreviation": "BOS"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Nets",
-        "name": "Brooklyn Nets"
+        "name": "Brooklyn Nets",
+        "abreviation": "BKN"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Hornets",
-        "name": "Charlotte Hornets"
+        "name": "Charlotte Hornets",
+        "abreviation": "CHA"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Bulls",
-        "name": "Chicago Bulls"
+        "name": "Chicago Bulls",
+        "abreviation": "CHI"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Cavs",
-        "name": "Cleveland Cavaliers"
+        "name": "Cleveland Cavaliers",
+        "abreviation": "CLE"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Mavs",
-        "name": "Dallas Mavericks"
+        "name": "Dallas Mavericks",
+        "abreviation": "DAL"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Nuggets",
-        "name": "Denver Nuggets"
+        "name": "Denver Nuggets",
+        "abreviation": "DEN"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Pistons",
-        "name": "Detroit Pistons"
+        "name": "Detroit Pistons",
+        "abreviation": "DET"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Warriors",
-        "name": "Golden State Warriors"
+        "name": "Golden State Warriors",
+        "abreviation": "GSW"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Rockets",
-        "name": "Houston Rockets"
+        "name": "Houston Rockets",
+        "abreviation": "HOU"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Pacers",
-        "name": "Indiana Pacers"
+        "name": "Indiana Pacers",
+        "abreviation": "IND"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Clippers",
-        "name": "Los Angeles Clippers"
+        "name": "Los Angeles Clippers",
+        "abreviation": "LAC"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Lakers",
-        "name": "Los Angeles Lakers"
+        "name": "Los Angeles Lakers",
+        "abreviation": "LAL"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Grizzlies",
-        "name": "Memphis Grizzlies"
+        "name": "Memphis Grizzlies",
+        "abreviation": "MEM"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Heat",
-        "name": "Miami Heat"
+        "name": "Miami Heat",
+        "abreviation": "MIA"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Bucks",
-        "name": "Milwaukee Bucks"
+        "name": "Milwaukee Bucks",
+        "abreviation": "MIL"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Twolves",
-        "name": "Minnesota Timberwolves"
+        "name": "Minnesota Timberwolves",
+        "abreviation": "MIN"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Pelicans",
-        "name": "New Orleans Pelicans"
+        "name": "New Orleans Pelicans",
+        "abreviation": "NOP"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Knicks",
-        "name": "New York Knicks"
+        "name": "New York Knicks",
+        "abreviation": "NYK"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "OKC",
-        "name": "Oklahoma City Thunder"
+        "name": "Oklahoma City Thunder",
+        "abreviation": "OKC"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Magic",
-        "name": "Orlando Magic"
+        "name": "Orlando Magic",
+        "abreviation": "ORL"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "6ers",
-        "name": "Philadelphia 76ers"
+        "name": "Philadelphia 76ers",
+        "abreviation": "PHI"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Suns",
-        "name": "Phoenix Suns"
+        "name": "Phoenix Suns",
+        "abreviation": "PHX"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Blazers",
-        "name": "Portland Trail Blazers"
+        "name": "Portland Trail Blazers",
+        "abreviation": "POR"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Kings",
-        "name": "Sacramento Kings"
+        "name": "Sacramento Kings",
+        "abreviation": "SAC"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Spurs",
-        "name": "San Antonio Spurs"
+        "name": "San Antonio Spurs",
+        "abreviation": "SAS"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Raptors",
-        "name": "Toronto Raptors"
+        "name": "Toronto Raptors",
+        "abreviation": "TOR"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Jazz",
-        "name": "Utah Jazz"
+        "name": "Utah Jazz",
+        "abreviation": "UTA"
     },
     {
         "games": 0,
         "score": 0,
         "weightedScore": 0,
         "mascot": "Wizards",
-        "name": "Washington Wizards"
+        "name": "Washington Wizards",
+        "abreviation": "WAS"
     }
 ];
 var today = 0;
@@ -301,6 +331,7 @@ async function run() {
     var team1 = "";
     var spread = "";
     var team2 = "";
+    var output = "";
     var today = new Date();
     var day = today.toLocaleDateString();
     console.log(day);
@@ -326,7 +357,8 @@ async function run() {
                     });
                     if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 5)
                     {
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj) VALUES('${day}', 'Regular', '${team1.mascot}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        output += "Regular: "+team1.mascot+" "+spread+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
+                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -334,7 +366,8 @@ async function run() {
                     }
                     else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -5)
                     {
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj) VALUES('${day}', 'Regular', '${team2.mascot}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        output += "Regular: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
+                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -342,7 +375,8 @@ async function run() {
                     }
                     if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 5)
                     {
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj) VALUES('${day}', 'Weighted', '${team1.mascot}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        output += "Weighted: "+team1.mascot+" "+spread+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
+                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -350,7 +384,8 @@ async function run() {
                     }
                     else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -5)
                     {
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj) VALUES('${day}', 'Weighted', '${team2.mascot}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        output += "Weighted: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
+                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -378,6 +413,16 @@ async function run() {
                     team2 += data[i];
                 }
             }
+            if(output == "")
+            {
+                output = "No picks :(\n";
+            }
+            fs.writeFile('./output.txt', output, err => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            });
         });
     });
 };

@@ -1,0 +1,7 @@
+Weighted: Spurs +14 by 6.894282061926252
+Regular: OKC +1 by 5.098412698412698
+Weighted: OKC +1 by 5.193780677113757
+Regular: Warriors +6 by 7.098290598290598*
+Weighted: Warriors +6 by 6.975497809933511*
+Regular: Blazers +11 by 9.723723723723724*
+Weighted: Blazers +11 by 9.741516859978953*
