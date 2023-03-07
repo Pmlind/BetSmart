@@ -272,6 +272,47 @@ function findHomeTeam(dom, i)
     })
 }
 
+function getInjuryReport()
+{
+    report = "";
+    var today = new Date();
+    var day = today.toLocaleDateString();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    var time = hours + ":" + minutes;
+    return new Promise((resolve, reject) => {
+        request('https://www.espn.com/nba/injuries', function (
+            error,
+            response,
+            body
+        ){
+            const dom = new jsdom.JSDOM(body);
+            let table = dom.window.document.getElementsByClassName('ResponsiveTable Table__league-injuries');
+            for(const i of table)
+            {
+                report += i.querySelector('.Table__Title').textContent+"\n";
+                players = i.querySelector('.Table__TBODY').querySelectorAll('.Table__TR');
+                for(const x of players)
+                {
+                    report += "\t"+x.querySelector('.col-name').textContent + "\n";
+                    report += "\t\t"+x.querySelector('.col-stat').textContent + "\n";
+                    /*sql = `INSERT INTO NBAINJURIES(date, time, team, player, status) VALUES("${day}", "${time}", "${i.querySelector('.Table__Title').textContent}", "${x.querySelector('.col-name').textContent}", "${x.querySelector('.col-stat').textContent}");`;
+                    con.query(sql, function (err, result) {
+                        if (err) throw err;
+                        console.log("Number of records inserted: " + result.affectedRows);
+                    });*/
+                }
+            }
+            fs.writeFile('./injuryReport.txt', report, err => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            });
+        })
+    })
+}
+
 function parse(month)
 {
     var url = 'https://www.basketball-reference.com/leagues/NBA_2023_games-'+month+'.html';
@@ -319,10 +360,10 @@ function parse(month)
 async function run() {
     //await parse("october")
     //await parse("november")
-    await parse("december")
+    //await parse("december")
     await parse("january")
 	await parse("february")
-    //await parse("march")
+    await parse("march")
     //await parse("april")
     //await parse("may")
     //await parse("june")
@@ -423,6 +464,7 @@ async function run() {
                     return;
                 }
             });
+            getInjuryReport();
         });
     });
 };

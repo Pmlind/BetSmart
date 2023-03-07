@@ -1,0 +1,199 @@
+Boston Celtics
+	Payton Pritchard
+		Day-To-Day
+	Jayson Tatum
+		Day-To-Day
+	Al Horford
+		Day-To-Day
+	Robert Williams III
+		Out
+	Danilo Gallinari
+		Out
+Brooklyn Nets
+	Ben Simmons
+		Out
+Charlotte Hornets
+	LaMelo Ball
+		Out
+Chicago Bulls
+	Javonte Green
+		Out
+	Lonzo Ball
+		Out
+Dallas Mavericks
+	JaVale McGee
+		Day-To-Day
+	Maxi Kleber
+		Day-To-Day
+Denver Nuggets
+	Michael Porter Jr.
+		Day-To-Day
+	Vlatko Cancar
+		Day-To-Day
+	Zeke Nnaji
+		Out
+	Collin Gillespie
+		Out
+Detroit Pistons
+	Isaiah Stewart
+		Out
+	Jalen Duren
+		Out
+	Bojan Bogdanovic
+		Out
+	Hamidou Diallo
+		Out
+	Alec Burks
+		Out
+	Killian Hayes
+		Out
+	Cade Cunningham
+		Out
+Golden State Warriors
+	Andre Iguodala
+		Day-To-Day
+	Draymond Green
+		Day-To-Day
+	Andrew Wiggins
+		Out
+	Gary Payton II
+		Out
+	Ryan Rollins
+		Out
+Indiana Pacers
+	Aaron Nesmith
+		Day-To-Day
+	Kendall Brown
+		Out
+LA Clippers
+	Norman Powell
+		Out
+Los Angeles Lakers
+	Mo Bamba
+		Out
+	Anthony Davis
+		Day-To-Day
+	D'Angelo Russell
+		Out
+	LeBron James
+		Out
+Memphis Grizzlies
+	Vince Williams Jr.
+		Out
+	Jake LaRavia
+		Day-To-Day
+	Steven Adams
+		Out
+	Ja Morant
+		Out
+	Brandon Clarke
+		Out
+Miami Heat
+	Kevin Love
+		Day-To-Day
+	Kyle Lowry
+		Out
+Milwaukee Bucks
+	Jrue Holiday
+		Out
+	Giannis Antetokounmpo
+		Out
+	Goran Dragic
+		Out
+	Wesley Matthews
+		Out
+Minnesota Timberwolves
+	Austin Rivers
+		Day-To-Day
+	Jaylen Nowell
+		Out
+	Karl-Anthony Towns
+		Out
+New Orleans Pelicans
+	Josh Richardson
+		Day-To-Day
+	Zion Williamson
+		Out
+	Jose Alvarado
+		Out
+	Larry Nance Jr.
+		Out
+	E.J. Liddell
+		Out
+New York Knicks
+	Jalen Brunson
+		Day-To-Day
+	DaQuan Jeffries
+		Day-To-Day
+Oklahoma City Thunder
+	Jalen Williams
+		Out
+	Kenrich Williams
+		Out
+	Aleksej Pokusevski
+		Out
+	Chet Holmgren
+		Out
+Orlando Magic
+	Admiral Schofield
+		Out
+	Gary Harris
+		Day-To-Day
+	Wendell Carter Jr.
+		Day-To-Day
+	Jonathan Isaac
+		Out
+Philadelphia 76ers
+	P.J. Tucker
+		Day-To-Day
+	Tobias Harris
+		Day-To-Day
+	James Harden
+		Day-To-Day
+Phoenix Suns
+	Landry Shamet
+		Out
+Portland Trail Blazers
+	Ibou Badji
+		Out
+	Anfernee Simons
+		Out
+	Jusuf Nurkic
+		Out
+	Ryan Arcidiacono
+		Out
+	Justise Winslow
+		Out
+Sacramento Kings
+	De'Aaron Fox
+		Day-To-Day
+San Antonio Spurs
+	Jeremy Sochan
+		Day-To-Day
+	Doug McDermott
+		Day-To-Day
+	Romeo Langford
+		Day-To-Day
+	Tre Jones
+		Day-To-Day
+	Zach Collins
+		Day-To-Day
+	Khem Birch
+		Out
+Toronto Raptors
+	Dalano Banton
+		Day-To-Day
+	Otto Porter Jr.
+		Out
+Utah Jazz
+	Jordan Clarkson
+		Day-To-Day
+	Walker Kessler
+		Day-To-Day
+	Collin Sexton
+		Out
+Washington Wizards
+	Monte Morris
+		Out
+	Kyle Kuzma
+		Day-To-Day
