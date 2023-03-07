@@ -1,3 +1,4 @@
+const URL = "https://sportsbook.draftkings.com/leagues/basketball/nba?wpsrc=Organic%20Search&wpaffn=Google&wpkw=https%3A%2F%2Fsportsbook.draftkings.com%2Fleagues%2Fbasketball%2Fnba&wpcn=leagues&wpscn=basketball%2Fnba";
 const jsdom = require("jsdom");
 const request = require('request');
 var http = require('http');
