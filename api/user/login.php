@@ -21,7 +21,7 @@ if($user!=NULL){
 		echo "<p style='font-size:50px;'>Welcome back, $username!</p>
 			<p>You will be redirected in <span id='counter'>3</span> second(s).</p>
 			<script type='text/javascript'>
-				user = true;
+				
 				function countdown() {
 					var i = document.getElementById('counter');
 					if (parseInt(i.innerHTML)>0) {

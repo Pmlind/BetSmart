@@ -5,27 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login to BetSmart</title>
   <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-  <script language="javascript" type="text/javascript">
-	  function signin(){
-        var pw = String(CryptoJS.SHA256(document.getElementById("signinpassword").value));
-        document.getElementById("signinpassword").value=pw;
-		    document.getElementById("signinform").submit();
-		    }
-	  function signup(){
-        var password = String(CryptoJS.SHA256(document.getElementById("signuppassword").value));
-        var confirmm = String(CryptoJS.SHA256(document.getElementById("signuppasswordconfirm").value));
-        console.log(password+" "+confirmm);
-        if(password==confirmm){
-            document.getElementById("signuppassword").value=password;
-            document.getElementById("signuppasswordconfirm").value=password;
-            document.getElementById("signupform").submit();
-            }
-        else{
-              alert("passwords are not matching");
-            }
-		}
-  </script>
+  <script src="login.js"></script>
 </head>
 <header>
 </header>
@@ -37,48 +19,48 @@
       <input id="tab2" type="radio" name="tab" class="sign-up">
       <label for="tab2" class="tab">Sign Up</label>
       <div class="login-form">
-        <form id="signinform" class="sign-in-htm" action="./api/user/login.php" method="GET" onsubmit="event.preventDefault(); signin()">
+        <div id="signinform" class="sign-in-htm">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input id="username" name="username"  type="text" class="input" required>
+            <input id="signin_username" type="text" class="input" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input id="signinpassword" name="password" type="password" class="input" data-type="password" required>
+            <input id="signin_password" type="password" class="input" required>
           </div>
           <div class="group">
             <input id="check" type="checkbox" class="check" checked>
             <label for="check"><span class="icon"></span>Keep me Signed in</label>
           </div>
           <div class="group">
-            <input type="submit" class="button" value="Sign in">
+            <button class="button" onclick="signin()">Sign in</button>
           </div>
           <div class="hr"></div>
           <div class="footerLink">
             <a href="recover.html">Forgot Password?</a>
           </div>
-        </form>
-        <form class="sign-up-htm" id="signupform" action="./api/user/signup.php" method="POST" onsubmit="event.preventDefault(); signup()">
+        </div>
+        <div class="sign-up-htm" id="signupform">
           <div class="group">
             <label for="user" class="label">Username</label>
-            <input id="signupusername" name="username" type="text" class="input" required>
+            <input id="signup_username" type="text" class="input" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Password</label>
-            <input id="signuppassword" name="password" type="password" class="input" data-type="password" required>
+            <input id="signup_password" type="password" class="input" required>
           </div>
           <div class="group">
             <label for="pass" class="label">Confirm Password</label>
-            <input id="signuppasswordconfirm" type="password" class="input" data-type="password" required>
+            <input id="confirm_password" type="password" class="input" required>
           </div>
           <div class="group">
-            <input type="submit" class="button" value="Sign up">
+            <button class="button"  onclick="signup()">Sign up</button>
           </div>
           <div class="hr"></div>
           <div class="footerLink">
             <label for="tab-1">Already Member?</a>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

@@ -3,8 +3,8 @@
 <head>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/n pm/mysql@2.0.0/index.js"></script>
- 
-   <script src="index.js"></script>
+  <script src="index_main.js"></script>
+
   <link rel="stylesheet" href="./assets/css/style.css">
   <div class="topnav">
     <a class="active" href="#home">Home</a>
@@ -14,7 +14,7 @@
       </button>
       <div class="dropdown-content">
         <a onclick="NFL_page()">NFL</a>
-        <a href="https://sportsbook.draftkings.com/leagues/basketball/nba">NBA</a>
+        <a onclick="NBA_page()">NBA</a>
       </div>
     </div> 
     <div class="dropdown">
@@ -22,9 +22,9 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a >All</a>
+        <a onclick="all_picks_fetch()">All</a>
         <a onclick="NFL_picks_fetch()">NFL</a>
-        <a href="#NBAPicks">NBA</a>
+        <a onclick="NBA_picks_fetch()">NBA</a>
       </div>
     </div> 
     <div class="dropdown">
@@ -32,6 +32,7 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
+        <a onclick="show_user_info()">Hi, mate</a>
         <a href="./login.html" id="sign-in-button">Sign In</a>
       </div>
     </div> 
@@ -41,9 +42,25 @@
 </header>
 <body>
 
-  <div class="body-page" id="NFL-picks">
+  <div class="body-page hidden" id="NFL-picks">
   </div>
 
+  <div class="body-page hidden" id="NBA-picks">
+    <h1>TODO: fetch NBA picks</h1>
+  </div>
+
+  <div class="body-page hidden" id="user-info">
+    <h1>TODO: fetch user info</h1>
+  </div>
+
+  <div class="body-page hidden" id="NFL-sport">
+    <h1>TODO: fetch NFL sport</h1>
+  </div>
+
+  <div class="body-page hidden" id="NBA-sport">
+    <h1>TODO: fetch NBA sport</h1>
+  </div>
+<!-- 
   <div class="body-page hidden" id="NFL">
     <label class="tabs" onclick="toggle(this.nextElementSibling)">Coming soon</label>
     <div class="upcoming-matches">
@@ -90,7 +107,7 @@
       <div id="history-frame" class="hidden">
       </div>
     </div>
-  </div>
+  </div> -->
 </body>
 
 </html>
