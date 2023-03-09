@@ -1,0 +1,6 @@
+Regular: Kansas +5 by 9.321428571428571
+Weighted: Kansas +5 by 9.989645337301587
+Regular: UCLA +12 by 16.5
+Weighted: UCLA +12 by 14.400160256410256
+Regular: Arizona St. +9.5 by 17.785714285714285
+Weighted: Arizona St. +9.5 by 14.340481938696225
