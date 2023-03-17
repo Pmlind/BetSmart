@@ -1,3 +1,7 @@
+/*
+Main algorithm code.
+*/
+
 let team_logo={
   "Arizona Cardinals" : "./images\\NFL\\Cardinals_logo.svg.png",
   "Atlanta Falcons" : "./images\\NFL\\Falcons_logo.svg.png",

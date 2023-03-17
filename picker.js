@@ -1,3 +1,7 @@
+/* 
+Code that picks the winning bets using different calculations.
+*/
+
 const jsdom = require("jsdom");
 const request = require('request');
 var fs = require('fs');

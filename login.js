@@ -1,3 +1,7 @@
+/*
+Main code for Sign Up/Sign In.
+*/
+
 function signin(){
     var username = document.getElementById("signin_username").value;
     var password = String(CryptoJS.SHA256(document.getElementById("signin_password").value));

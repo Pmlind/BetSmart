@@ -1,3 +1,7 @@
+/* 
+ * Code that automatically updates stats from webscraping
+ */
+
 const jsdom = require("jsdom");
 const request = require('request');
 var fs = require('fs');
