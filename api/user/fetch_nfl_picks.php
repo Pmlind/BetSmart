@@ -4,7 +4,7 @@ if ($db->connect_error){
     die("Connection failed: ".$db->connect_error);
 }
 
-$query = "SELECT * FROM BetSmart.PICKS WHERE week='13';";
+$query = "SELECT * FROM BetSmart.PICKS;";
 
 $result = $db->query($query);
 if (mysqli_num_rows($result) > 0) {

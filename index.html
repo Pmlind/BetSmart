@@ -7,7 +7,7 @@
 
   <link rel="stylesheet" href="./assets/css/style.css">
   <div class="topnav">
-    <a class="active" href="#home">Home</a>
+    <a class="active" href="index.html">Home</a>
     <div class="dropdown">
       <button class="dropbtn">Sports
         <i class="fa fa-caret-down"></i>
@@ -42,11 +42,26 @@
 </header>
 <body>
 
+  <div class="body-page" id="home-page">
+    <label class="tabs" onclick="toggle(this.nextElementSibling)">Upcoming NBA matches</label>
+    <div id="NBA-upcoming-matches">
+
+    </div>
+  </div>
+
   <div class="body-page hidden" id="NFL-picks">
+    <div class="week-nfl-picks">
+      <div class="team-nfl-picks">
+
+        <div class="label-team-nfl-picks">
+          <img class="logo" src="./images/NBA/nba-los-angeles-lakers-logo.png">
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <div class="body-page hidden" id="NBA-picks">
-    <h1>TODO: fetch NBA picks</h1>
   </div>
 
   <div class="body-page hidden" id="user-info">
@@ -58,7 +73,8 @@
   </div>
 
   <div class="body-page hidden" id="NBA-sport">
-    <h1>TODO: fetch NBA sport</h1>
+    <h1>Live</h1>
+    <div class="week-matches" id="NBA-live"></div>
   </div>
 <!-- 
   <div class="body-page hidden" id="NFL">
