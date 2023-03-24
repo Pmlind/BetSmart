@@ -4,7 +4,7 @@ if ($db->connect_error){
     die("Connection failed: ".$db->connect_error);
 }
 
-$query = "SELECT * FROM BetSmart.NBAPICKS;";
+$query = "SELECT * FROM BetSmart.NBAPICKS ORDER BY id DESC;";
 
 $result = $db->query($query);
 if (mysqli_num_rows($result) > 0) {

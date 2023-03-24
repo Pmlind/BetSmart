@@ -176,6 +176,9 @@ function toggle(e){
   else e.classList.add("hidden");
 }
 
+/*
+Main mechanism to switch between tabs
+*/
 function hide_body_pages_except(e){
   Array.from(document.getElementsByClassName("body-page")).forEach(element => {
     if(!element.classList.contains("hidden")) element.classList.add("hidden");
@@ -201,7 +204,6 @@ function NFL_picks_fetch(){
 
 
         var table = document.createElement('table');
-        //headerrow
         var header_row= document.createElement('tr');
         var headers = ['week','picktype','team','spread','spreadby','inj'];
         for (var i=0;i<headers.length;i++){
@@ -211,7 +213,6 @@ function NFL_picks_fetch(){
         }
         table.appendChild(header_row);
 
-        //data
         for(var i=0;i<picks_table.length;i++){
           var row = document.createElement('tr'); 
           for (var j=0; j<headers.length;j++){
@@ -222,7 +223,6 @@ function NFL_picks_fetch(){
           table.appendChild(row);
         }
 
-        //display
         NFL_picks.appendChild(table);
 
 
@@ -230,8 +230,11 @@ function NFL_picks_fetch(){
   }
 }
 
+/*
+Fetch NBA picks from the database then create and add HTML tags into index.html
+*/
 function NBA_picks_fetch(){
-  var NBA_picks = document.getElementById("NBA-picks");
+  const NBA_picks = document.getElementById("NBA-picks");
   hide_body_pages_except(NBA_picks);
 
   if(NBA_picks.children.length<1){
@@ -248,32 +251,94 @@ function NBA_picks_fetch(){
       $(document).ajaxStop(function() {
 
 
-        var table = document.createElement('table');
-        //headerrow
-        var header_row= document.createElement('tr');
-        var headers = ['date','picktype','team','spread','spreadby','inj5'];
-        for (var i=0;i<headers.length;i++){
-          var header = document.createElement('th');
-          header.innerHTML = headers[i];
-          header_row.appendChild(header);
-        }
-        table.appendChild(header_row);
-
-        //data
-        for(var i=0;i<picks_table.length;i++){
-          var row = document.createElement('tr'); 
-          for (var j=0; j<headers.length;j++){
-            var cell = document.createElement('td');
-            cell.innerHTML = picks_table[i][headers[j]];
-            row.appendChild(cell);
+        for(let row=0; row<picks_table.length; row++){
+          if(row==0 || picks_table[row]['team'] != picks_table[row-1]['team']){
+  
+            var divTeamNbaPicks = document.createElement('div');
+            divTeamNbaPicks.classList.add('team-nba-picks');
+  
+            const divRowNba1 = document.createElement('div');
+            divRowNba1.classList.add('row-nba');
+            divRowNba1.style.background=NBA_color[picks_table[row]['team']];
+  
+            const divRowNbaNameLogo = document.createElement('div');
+            divRowNbaNameLogo.classList.add('row-nba', 'name+logo');
+  
+            const imgLogo = document.createElement('img');
+            imgLogo.classList.add('logo');
+            imgLogo.src = NBA_logo[String(picks_table[row]['team'])] ;
+  
+            const h1TeamName = document.createElement('h1');
+            h1TeamName.innerText = NBA_fullname[String(picks_table[row]['team'])];
+  
+            const divRowNbaSpread = document.createElement('div');
+            divRowNbaSpread.classList.add('row-nba', 'nba-spread');
+  
+            const h4Spread = document.createElement('h4');
+            h4Spread.innerText = 'Spread';
+  
+            const h4SpreadBy = document.createElement('h4');
+            h4SpreadBy.innerText = 'Spread By';
+  
+            const h4Inj = document.createElement('h4');
+            h4Inj.innerText = 'Inj';
+            
+            divRowNbaNameLogo.appendChild(imgLogo);
+            divRowNbaNameLogo.appendChild(h1TeamName);
+            divRowNbaSpread.appendChild(h4Spread);
+            divRowNbaSpread.appendChild(h4SpreadBy);
+            divRowNbaSpread.appendChild(h4Inj);
+            divRowNba1.appendChild(divRowNbaNameLogo);
+            divRowNba1.appendChild(divRowNbaSpread);
+            divTeamNbaPicks.appendChild(divRowNba1);
+          }//end if
+          
+          
+          if(row==0 || picks_table[row]['date'] != picks_table[row-1]['date']){
+            var labelWeek = document.createElement('label');
+            labelWeek.classList.add('tabs');
+            labelWeek.innerHTML = String(picks_table[row]['date']);
+            NBA_picks.appendChild(labelWeek);
+            
+            var divWeekNbaPicks = document.createElement('div');
+            divWeekNbaPicks.classList.add('week-nba-picks');
           }
-          table.appendChild(row);
+          
+          const divRowNba2 = document.createElement('div');
+          divRowNba2.classList.add('row-nba');
+  
+          const h3PickType = document.createElement('h3');
+          h3PickType.innerText = String(picks_table[row]['picktype']) +":";
+  
+          const divStatNba1 = document.createElement('div');
+          divStatNba1.classList.add('row-nba', 'stat-nba');
+  
+          const h4StatNba1 = document.createElement('h4');
+          h4StatNba1.innerText = String(picks_table[row]['spread']);
+  
+          const h4StatNba2 = document.createElement('h4');
+          h4StatNba2.innerText = String(picks_table[row]['spreadby']);
+  
+          const h4StatNba3 = document.createElement('h4');
+          h4StatNba3.innerText = String(picks_table[row]['inj5']);
+  
+          divStatNba1.appendChild(h4StatNba1);
+          divStatNba1.appendChild(h4StatNba2);
+          divStatNba1.appendChild(h4StatNba3);
+          divRowNba2.appendChild(h3PickType);
+          divRowNba2.appendChild(divStatNba1);
+          divTeamNbaPicks.appendChild(divRowNba2);
+
+
+          
+          if(row==0 || picks_table[row]['team'] != picks_table[row-1]['team']){
+            divWeekNbaPicks.appendChild(divTeamNbaPicks);
+          }
+
+          if(row==0 || picks_table[row]['date'] != picks_table[row-1]['date']){
+            NBA_picks.appendChild(divWeekNbaPicks);
+          }
         }
-
-        //display
-        NBA_picks.appendChild(table);
-
-
       })
   }
 }
@@ -282,7 +347,6 @@ function all_picks_fetch(){
   NBA_picks_fetch()
   NFL_picks_fetch()
   document.getElementById("NBA-picks").classList.remove("hidden");
-  //TODO: Implement this
 }
 
 function NFL_page(){
@@ -369,74 +433,3 @@ function NBA_match_live_display(team1, t1_score, team2, t2_score){
 
   return newDiv;
 }
-
-//function test(team1, team2){
-  //   let team1_logo = document.getElementById("team1-logo");
-  //   let team2_logo = document.getElementById("team2-logo");
-  //   let team1_name = document.getElementById("team1-name");
-  //   let team2_name = document.getElementById("team2-name");
-  
-  //   let t1_background = document.getElementById("team1");
-  //   let t2_background = document.getElementById("team2");
-  
-  //   // console.log(team1_logo);
-  //   // console.log(team2_logo);
-  //   team1_logo.setAttribute("src", team_logo[team1]);
-  //   team1_name.textContent = team1;
-  //   t1_background.style.background = background_color[team1];
-  
-  //   team2_logo.setAttribute("src", team_logo[team2]);
-  //   team2_name.textContent = team2;
-  //   t2_background.style.background = background_color[team2];
-  // }
-
-
-
-// function display_history(){
-//   var scores_table;
-//   var history_frame = document.getElementById("history-frame");
-//   var tab = document.getElementById("fecthhistory");
-  
-//   $.ajax({
-//     type: "GET",
-//     url: "./api/user/fetchhistory.php",
-//   })
-//     .done(function( response ) {
-//       // Update the page content with the response from the server
-//       scores_table = JSON.parse(response);
-//     });
-
-//   $(document).ajaxStop(function() {
-//     var t1name;
-//     var t2name;
-//     var t1score;
-//     var t2score;
-//     for(var week=13;week>0;week--){
-//       //week label
-//       const newLabel = document.createElement("label");
-//       newLabel.setAttribute("class","week-label");
-//       newLabel.setAttribute("onclick","toggle(this.nextElementSibling)");
-//       newLabel.textContent="Week " + week;
-//       //matches
-//       const newDiv = document.createElement("div");
-//       newDiv.classList.add("week-matches");
-//       newDiv.classList.add("hidden");
-//       history_frame.appendChild(newLabel);
-      
-      
-//       for(var j=0;j<scores_table.length;j++){
-//         if(scores_table[j]['week'] == String(week)){  
-//           t1name = scores_table[j]["team1"];
-//           t2name = scores_table[j]["team2"];
-//           t1score= scores_table[j]["team1scores"];
-//           t2score = scores_table[j]["team2scores"];
-//           newDiv.appendChild(match_result_display(t1name,t1score,t2name,t2score));
-//         }
-//           history_frame.appendChild(newDiv);
-//         }
-
-//     }
-//     tab.setAttribute("onclick", "toggle(this.nextElementSibling);")
-//   })
-// }
-
