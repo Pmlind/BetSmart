@@ -1,3 +1,7 @@
+/*
+Main code for listing injured players through webscraping.
+*/
+
 const URL = "https://www.espn.com/nfl/injuries";
 const jsdom = require("jsdom");
 const request = require('request');
