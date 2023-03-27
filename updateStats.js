@@ -250,125 +250,10 @@ function updateTeams(team, game, opponent)
 async function run(week)
 {   
     //Get scores from last week
-    await scoreScraper(week);
+    //await scoreScraper(week);
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        //Insert recent scores to database
-        var sql = "INSERT INTO SCORES (week,team1,team1scores,team2,team2scores) VALUES ?";
-        con.query(sql, [scores], function (err, result) {
-            if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
-        });
-        //get scores from DB of games that were picked
-        sql = `SELECT * FROM PICKS, SCORES WHERE (PICKS.week = ${week} AND SCORES.week = ${week}) AND (PICKS.team = SCORES.team1 OR PICKS.team = SCORES.team2);`;
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            var hits = check(result);
-            for(const i in hits)
-            {
-                //update success of picks in PICKS table
-                sql = `UPDATE PICKS SET hit = ${hits[i]} WHERE (week = ${week} AND picktype = '${result[i].picktype}') AND team = '${result[i].team}';`
-                con.query(sql, function (err, result) {
-                    if (err) throw err;
-                    console.log("Number of records inserted: " + result.affectedRows);
-                });
-                if(!teams.includes(result[i].team))
-                {
-                    teams.push(result[i].team);
-                }
-            }
-            for(const i of teams)
-            {
-                //get all recent picks, use them to update STATS table
-                sql = `SELECT * FROM PICKS WHERE PICKS.week = ${week} AND PICKS.team = '${i}' AND PICKS.inj = 0;`;
-                con.query(sql, function (err, result) {
-                    if (err) throw err;
-                    if(result.length == 1)
-                    {
-                        sql = update(result[0], result[0].picktype);
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    else if(result.length == 2)
-                    {
-                        for(const x of result)
-                        {
-                            sql = update(x, x.picktype);
-                            con.query(sql, function (err, result) {
-                                if (err) throw err;
-                                console.log("Number of records inserted: " + result.affectedRows);
-                            });
-                            console.log(sql);
-                        }
-                        if(result[0].picktype == 'Regular:' && result[1].picktype == 'Weighted:')
-                        {
-                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
-                            {
-                                sql = update(result[0], 'RW2');
-                            }
-                            else
-                            {
-                                sql = update(result[0], 'RW1');
-                            }
-                        }
-                        else if(result[0].picktype == 'Regular:' && result[1].picktype == 'ATS:')
-                        {
-                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
-                            {
-                                sql = update(result[0], 'RA2');
-                            }
-                            else
-                            {
-                                sql = update(result[0], 'RA1');
-                            }
-                        }
-                        else if(result[0].picktype == 'Weighted:' && result[1].picktype == 'ATS:')
-                        {
-                            if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
-                            {
-                                sql = update(result[0], 'WA2');
-                            }
-                            else
-                            {
-                                sql = update(result[0], 'WA1');
-                            }
-                        }
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    else if(result.length == 3)
-                    {
-                        for(const x of result)
-                        {
-                            sql = update(x, x.picktype);
-                            con.query(sql, function (err, result) {
-                                if (err) throw err;
-                                console.log("Number of records inserted: " + result.affectedRows);
-                            });
-                            console.log(sql)
-                        }
-                        if(result[0].spreadby >= 20 && result[1].spreadby >= 20 && result[2].spreadby >= 20)
-                        {
-                            sql = update(result[0], 'RWA2');
-                        }
-                        else
-                        {
-                            sql = update(result[0], 'RWA1');
-                        }
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    console.log(sql);
-                });
-            }
-        });
         if(week == 0)
         {
             //reset teams stats
@@ -380,38 +265,155 @@ async function run(week)
         }
         else
         {
-            //get teams and spreads
-            sql = `SELECT * FROM TEAMS,SPREAD WHERE SPREAD.week = ${week} AND SPREAD.bookmaker = 'caesars-sportsbook' AND SPREAD.team = TEAMS.names;`;
-            con.query(sql, function (err, result) {
-                if (err) throw err;
-                for(const x of result)
-                {
-                    //get scores
-                    sql = `SELECT * FROM SCORES WHERE SCORES.week = ${x.week} AND (SCORES.team1 = '${x.names}' OR SCORES.team2 = '${x.names}');`;
-                    con.query(sql, function (err, result2) {
-                        if (err) throw err;
-                        //get opponent's stats
-                        sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${x.opponent}';`;
-                        con.query(sql, function (err, result3) {
+            for(var index = 1; index <= week; index++)
+            {
+                //Insert recent scores to database
+                /*var sql = "INSERT INTO SCORES (index,team1,team1scores,team2,team2scores) VALUES ?";
+                con.query(sql, [scores], function (err, result) {
+                    if (err) throw err;
+                    console.log("Number of records inserted: " + result.affectedRows);
+                });*/
+                //get scores from DB of games that were picked
+                sql = `SELECT * FROM PICKS, SCORES WHERE (PICKS.week = ${index} AND SCORES.week = ${index}) AND (PICKS.team = SCORES.team1 OR PICKS.team = SCORES.team2);`;
+                con.query(sql, function (err, result) {
+                    if (err) throw err;
+                    var hits = check(result);
+                    for(const i in hits)
+                    {
+                        //update success of picks in PICKS table
+                        sql = `UPDATE PICKS SET hit = ${hits[i]} WHERE (week = ${index} AND picktype = '${result[i].picktype}') AND team = '${result[i].team}';`
+                        con.query(sql, function (err, result) {
                             if (err) throw err;
-                            if(result2.length > 0)
+                            console.log("Number of records inserted: " + result.affectedRows);
+                        });
+                        if(!teams.includes(result[i].team))
+                        {
+                            teams.push(result[i].team);
+                        }
+                    }
+                    for(const i of teams)
+                    {
+                        //get all recent picks, use them to update STATS table
+                        /*sql = `SELECT * FROM PICKS WHERE PICKS.week = ${index} AND PICKS.team = '${i}' AND PICKS.inj = 0;`;
+                        con.query(sql, function (err, result) {
+                            if (err) throw err;
+                            if(result.length == 1)
                             {
-                                //update teams with point and ats differentials from recent week
-                                sql = updateTeams(x,result2[0],result3[0]);
-                                console.log(sql);
-                                con.query(sql, function (err, result3) {
+                                sql = update(result[0], result[0].picktype);
+                                con.query(sql, function (err, result) {
                                     if (err) throw err;
+                                    console.log("Number of records inserted: " + result.affectedRows);
                                 });
                             }
+                            else if(result.length == 2)
+                            {
+                                for(const x of result)
+                                {
+                                    sql = update(x, x.picktype);
+                                    con.query(sql, function (err, result) {
+                                        if (err) throw err;
+                                        console.log("Number of records inserted: " + result.affectedRows);
+                                    });
+                                    console.log(sql);
+                                }
+                                if(result[0].picktype == 'Regular:' && result[1].picktype == 'Weighted:')
+                                {
+                                    if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                                    {
+                                        sql = update(result[0], 'RW2');
+                                    }
+                                    else
+                                    {
+                                        sql = update(result[0], 'RW1');
+                                    }
+                                }
+                                else if(result[0].picktype == 'Regular:' && result[1].picktype == 'ATS:')
+                                {
+                                    if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                                    {
+                                        sql = update(result[0], 'RA2');
+                                    }
+                                    else
+                                    {
+                                        sql = update(result[0], 'RA1');
+                                    }
+                                }
+                                else if(result[0].picktype == 'Weighted:' && result[1].picktype == 'ATS:')
+                                {
+                                    if(result[0].spreadby >= 20 && result[1].spreadby >= 20)
+                                    {
+                                        sql = update(result[0], 'WA2');
+                                    }
+                                    else
+                                    {
+                                        sql = update(result[0], 'WA1');
+                                    }
+                                }
+                                con.query(sql, function (err, result) {
+                                    if (err) throw err;
+                                    console.log("Number of records inserted: " + result.affectedRows);
+                                });
+                            }
+                            else if(result.length == 3)
+                            {
+                                for(const x of result)
+                                {
+                                    sql = update(x, x.picktype);
+                                    con.query(sql, function (err, result) {
+                                        if (err) throw err;
+                                        console.log("Number of records inserted: " + result.affectedRows);
+                                    });
+                                    console.log(sql)
+                                }
+                                if(result[0].spreadby >= 20 && result[1].spreadby >= 20 && result[2].spreadby >= 20)
+                                {
+                                    sql = update(result[0], 'RWA2');
+                                }
+                                else
+                                {
+                                    sql = update(result[0], 'RWA1');
+                                }
+                                con.query(sql, function (err, result) {
+                                    if (err) throw err;
+                                    console.log("Number of records inserted: " + result.affectedRows);
+                                });
+                            }
+                            console.log(sql);
+                        });*/
+                    }
+                });
+                //get teams and spreads
+                sql = `SELECT * FROM TEAMS,SPREAD WHERE SPREAD.week = ${index} AND SPREAD.bookmaker = 'caesars-sportsbook' AND SPREAD.team = TEAMS.names;`;
+                con.query(sql, function (err, result) {
+                    if (err) throw err;
+                    for(const x of result)
+                    {
+                        //get scores
+                        sql = `SELECT * FROM SCORES WHERE SCORES.week = ${x.week} AND (SCORES.team1 = '${x.names}' OR SCORES.team2 = '${x.names}');`;
+                        con.query(sql, function (err, result2) {
+                            if (err) throw err;
+                            //get opponent's stats
+                            sql = `SELECT * FROM TEAMS WHERE TEAMS.names = '${x.opponent}';`;
+                            con.query(sql, function (err, result3) {
+                                if (err) throw err;
+                                if(result2.length > 0)
+                                {
+                                    //update teams with point and ats differentials from recent week
+                                    sql = updateTeams(x,result2[0],result3[0]);
+                                    console.log(sql);
+                                    con.query(sql, function (err, result3) {
+                                        if (err) throw err;
+                                    });
+                                }
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+            }
         }
     });
-    console.log("DONE");
 }
 
 //PASS IN RECENT WEEK ONLY WHEN ALL GAMES ARE CONDLUDED
 //DO NOT RUN TWICE
-run(9);
+run(13);

@@ -6,53 +6,6 @@ const { runInContext } = require("vm");
 const { resolve } = require("path");
 var mysql = require('mysql');
 
-var con = mysql.createConnection({
-    host: 'betsmart.c4vgirc2flsl.us-east-1.rds.amazonaws.com',
-    user: 'admin',
-    password: 'Password1',
-    database: 'BetSmart'
-});
-
-const PORT=8080; 
-
-let months = [
-    {
-        "name": "january",
-        "days": 31,
-        "number": "01"
-    },
-    {
-        "name": "february",
-        "days": 28,
-        "number": "02"
-    },
-    {
-        "name": "march",
-        "days": 31,
-        "number": "03"
-    },
-    {
-        "name": "april",
-        "days": 30,
-        "number": "04"
-    },
-    {
-        "name": "october",
-        "days": 31,
-        "number": "10"
-    },
-    {
-        "name": "november",
-        "days": 30,
-        "number": "11"
-    },
-    {
-        "name": "december",
-        "days": 31,
-        "number": "12"
-    }
-]
-
 let teams = [
     {
         "games": 0,
@@ -2701,201 +2654,20 @@ let teams = [
         "nickname": "Youngstown St."
     }
 ];
-var today = 0;
 
-function findTeam(teamName)
+function run()
 {
-    return teams.find(obj => {
-        return obj.nickname === teamName;
-    })
-}
-function findMonth(monthName)
-{
-    return months.find(obj => {
-        return obj.name === monthName;
-    })
-}
-
-function parse(month, day)
-{
-    var url = 'https://www.ncaa.com/scoreboard/basketball-men/d1/2023/'+month+'/'+day+'/all-conf';
-    return new Promise((resolve, reject) => {
-        request(url, function (
-            error,
-            response,
-            body
-        ){
-            console.error('error:', error)
-            const dom = new jsdom.JSDOM(body);
-            //console.log(month, dom.window.document.getElementsByClassName('gamePod_content-pod_container'));
-            var table = dom.window.document.getElementsByClassName('gamePod gamePod-type-game status-final');
-            console.log(month, day);
-            var game;
-            var away;
-            var home;
-            for(const i of table)
-            {
-                if(table.length < 1)
-                {
-                    break;
-                }
-                game = i.querySelector(".gamePod-game-teams").querySelectorAll("li");
-                away = game[0];
-                home = game[1];
-                findTeam(away.querySelector('.gamePod-game-team-name').textContent).games += 1;
-                findTeam(home.querySelector('.gamePod-game-team-name').textContent).games += 1;
-                findTeam(away.querySelector('.gamePod-game-team-name').textContent).score += parseInt(away.querySelector('.gamePod-game-team-score').textContent) - parseInt(home.querySelector('.gamePod-game-team-score').textContent);
-                findTeam(home.querySelector('.gamePod-game-team-name').textContent).score += parseInt(home.querySelector('.gamePod-game-team-score').textContent) - parseInt(away.querySelector('.gamePod-game-team-score').textContent);
-                findTeam(away.querySelector('.gamePod-game-team-name').textContent).weightedScore += ((parseInt(away.querySelector('.gamePod-game-team-score').textContent) - parseInt(home.querySelector('.gamePod-game-team-score').textContent) + (findTeam(home.querySelector('.gamePod-game-team-name').textContent).score - findTeam(away.querySelector('.gamePod-game-team-name').textContent).score))/(findTeam(home.querySelector('.gamePod-game-team-name').textContent).games + findTeam(away.querySelector('.gamePod-game-team-name').textContent).games)/2);
-                findTeam(home.querySelector('.gamePod-game-team-name').textContent).weightedScore += ((parseInt(home.querySelector('.gamePod-game-team-score').textContent) - parseInt(away.querySelector('.gamePod-game-team-score').textContent) + (findTeam(away.querySelector('.gamePod-game-team-name').textContent).score - findTeam(home.querySelector('.gamePod-game-team-name').textContent).score))/(findTeam(away.querySelector('.gamePod-game-team-name').textContent).games + findTeam(home.querySelector('.gamePod-game-team-name').textContent).games)/2);
-            }
-            resolve();
-        });
-    });
-}
-
-async function iterator(month)
-{
-    var monthObj = findMonth(month);
-    var day = 0;
-    for(var x = 1; x <= monthObj.days; x++)
+    var out = "";
+    for(const i of teams)
     {
-        if(x < 10)
-        {
-            day = '0'+x;
-        }
-        else 
-        {
-            day = x;
-        }
-        await parse(monthObj.number, day);
+        out+=i.nickname+'\n'
     }
-}
-
-async function run() {
-    //await iterator("october")
-    //await iterator("november")
-    //await iterator("december")
-    //await iterator("january")
-	await iterator("february")
-    await iterator("march")
-    //await iterator("april")
-    //await iterator("may")
-    //await iterator("june")
-
-    var index = 0;
-    var team1 = "";
-    var spread = "";
-    var team2 = "";
-    var output = "";
-    var rn = new Date();
-    var day = rn.toLocaleDateString();
-    console.log(day);
-
-    fs.readFile('./input.txt', 'utf8' , (err, data) => {
-        if (err) 
-        {
+    fs.writeFile('./teams.txt', out, err => {
+        if (err) {
             console.error(err);
             return;
         }
-        con.connect(function(err) {
-            if (err) throw err;
-            console.log("Connected!");
-            for(var i = 0; i < data.length; i++)
-            {
-                if(data[i] == "\n")
-                {
-                    team1 = teams.find(obj => {
-                        return obj.nickname === team1;
-                    });
-                    if(team1 == undefined)
-                    {
-                        console.log(team2);
-                    }
-                    team2 = teams.find(obj => {
-                        return obj.nickname === team2;
-                    });
-                    if(team2 == undefined)
-                    {
-                        console.log(team1);
-                    }
-                    if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 5)
-                    {
-                        output += "Regular: "+team1.nickname+" "+spread+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -5)
-                    {
-                        output += "Regular: "+team2.nickname+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 5)
-                    {
-                        output += "Weighted: "+team1.nickname+" "+spread+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -5)
-                    {
-                        output += "Weighted: "+team2.nickname+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
-                        con.query(sql, function (err, result) {
-                            if (err) throw err;
-                            console.log("Number of records inserted: " + result.affectedRows);
-                        });
-                    }
-                    index = 0;
-                    team1 = "";
-                    spread = "";
-                    team2 = "";
-                }
-                else if(data[i+1] == "+" || data[i+1] == "-")
-                {
-                    index++;
-                }
-                else if(index == 0)
-                {
-                    team1 += data[i];
-                }
-                else if(index == 1)
-                {
-                    if(data[i] == " ")
-                    {
-                        index++;
-                    }
-                    else
-                    {
-                        spread += data[i];
-                    }
-                }
-                else if(index == 2)
-                {
-                    team2 += data[i];
-                }
-            }
-            if(output == "")
-            {
-                output = "No picks :(\n";
-            }
-            fs.writeFile('./output.txt', output, err => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-            });
-        });
     });
-};
+}
 
 run();

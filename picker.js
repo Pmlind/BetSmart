@@ -81,8 +81,7 @@ function run(week)
             }
         });
     });
-    console.log("DONE");
 }
 
-run(9);
+run(1);
     

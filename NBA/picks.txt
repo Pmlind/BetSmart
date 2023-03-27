@@ -56,3 +56,8 @@ Weighted: OKC +4 by 8.106648754297924 x
 Regular: Kings +2 by 6.112903225806452 x
 Weighted: Kings +2 by 5.106648754297924 x
 
+Regular: Twolves +6.5 by 5.998170731707317 v
+Weighted: Twolves +6.5 by 5.974966929430096 v
+
+Regular: Cavs +5 by 5.470238095238095 x
+Weighted: Cavs +5 by 5.397721758517379 x

@@ -1,168 +1,181 @@
+Atlanta Hawks
+	Jalen Johnson
+		Out
 Boston Celtics
-	Payton Pritchard
-		Day-To-Day
 	Jayson Tatum
 		Day-To-Day
-	Al Horford
-		Day-To-Day
-	Robert Williams III
+	Payton Pritchard
 		Out
 	Danilo Gallinari
 		Out
 Brooklyn Nets
+	Edmond Sumner
+		Day-To-Day
+	Royce O'Neale
+		Day-To-Day
+	Seth Curry
+		Day-To-Day
 	Ben Simmons
 		Out
 Charlotte Hornets
-	LaMelo Ball
-		Out
+	Terry Rozier
+		Day-To-Day
+	Kelly Oubre Jr.
+		Day-To-Day
 Chicago Bulls
 	Javonte Green
-		Out
+		Day-To-Day
 	Lonzo Ball
 		Out
-Dallas Mavericks
-	JaVale McGee
-		Day-To-Day
-	Maxi Kleber
-		Day-To-Day
-Denver Nuggets
-	Michael Porter Jr.
-		Day-To-Day
-	Vlatko Cancar
-		Day-To-Day
-	Zeke Nnaji
+	Justin Lewis
 		Out
+Cleveland Cavaliers
+	Dean Wade
+		Day-To-Day
+	Raul Neto
+		Day-To-Day
+	Danny Green
+		Day-To-Day
+	Isaac Okoro
+		Day-To-Day
+Dallas Mavericks
+	Luka Doncic
+		Out
+Denver Nuggets
 	Collin Gillespie
 		Out
-Detroit Pistons
-	Isaiah Stewart
+	Jack White
 		Out
-	Jalen Duren
+	Michael Porter Jr.
+		Day-To-Day
+Detroit Pistons
+	Alec Burks
 		Out
 	Bojan Bogdanovic
 		Out
+	Cory Joseph
+		Day-To-Day
+	Rodney McGruder
+		Day-To-Day
+	Isaiah Stewart
+		Out
 	Hamidou Diallo
-		Out
-	Alec Burks
-		Out
-	Killian Hayes
 		Out
 	Cade Cunningham
 		Out
 Golden State Warriors
 	Andre Iguodala
-		Day-To-Day
-	Draymond Green
-		Day-To-Day
-	Andrew Wiggins
 		Out
-	Gary Payton II
+	Ty Jerome
+		Out
+	Andrew Wiggins
 		Out
 	Ryan Rollins
 		Out
+Houston Rockets
+	Jae'Sean Tate
+		Out
 Indiana Pacers
-	Aaron Nesmith
+	Chris Duarte
+		Out
+	Myles Turner
+		Day-To-Day
+	Tyrese Haliburton
 		Day-To-Day
 	Kendall Brown
 		Out
 LA Clippers
+	Brandon Boston Jr.
+		Out
+	Kawhi Leonard
+		Day-To-Day
+	Paul George
+		Out
 	Norman Powell
 		Out
 Los Angeles Lakers
-	Mo Bamba
-		Out
-	Anthony Davis
-		Day-To-Day
 	D'Angelo Russell
-		Out
-	LeBron James
+		Day-To-Day
+	Scotty Pippen Jr.
+		Day-To-Day
+	Mo Bamba
 		Out
 Memphis Grizzlies
 	Vince Williams Jr.
 		Out
-	Jake LaRavia
-		Day-To-Day
-	Steven Adams
+	Ziaire Williams
 		Out
-	Ja Morant
+	Steven Adams
 		Out
 	Brandon Clarke
 		Out
 Miami Heat
-	Kevin Love
+	Nikola Jovic
 		Day-To-Day
-	Kyle Lowry
+	Cody Zeller
 		Out
 Milwaukee Bucks
-	Jrue Holiday
-		Out
-	Giannis Antetokounmpo
+	Meyers Leonard
 		Out
 	Goran Dragic
 		Out
-	Wesley Matthews
+	Jae Crowder
 		Out
+	Giannis Antetokounmpo
+		Day-To-Day
 Minnesota Timberwolves
-	Austin Rivers
+	Matt Ryan
 		Day-To-Day
-	Jaylen Nowell
-		Out
-	Karl-Anthony Towns
-		Out
 New Orleans Pelicans
-	Josh Richardson
-		Day-To-Day
-	Zion Williamson
-		Out
 	Jose Alvarado
 		Out
-	Larry Nance Jr.
+	Zion Williamson
 		Out
 	E.J. Liddell
 		Out
 New York Knicks
+	Trevor Keels
+		Out
+	Duane Washington Jr.
+		Out
 	Jalen Brunson
 		Day-To-Day
-	DaQuan Jeffries
-		Day-To-Day
 Oklahoma City Thunder
-	Jalen Williams
-		Out
+	Lindy Waters III
+		Day-To-Day
 	Kenrich Williams
-		Out
-	Aleksej Pokusevski
 		Out
 	Chet Holmgren
 		Out
 Orlando Magic
-	Admiral Schofield
-		Out
-	Gary Harris
-		Day-To-Day
-	Wendell Carter Jr.
-		Day-To-Day
 	Jonathan Isaac
 		Out
 Philadelphia 76ers
-	P.J. Tucker
-		Day-To-Day
-	Tobias Harris
+	Danuel House Jr.
 		Day-To-Day
 	James Harden
+		Out
+	Joel Embiid
 		Day-To-Day
 Phoenix Suns
-	Landry Shamet
+	Deandre Ayton
+		Out
+	Kevin Durant
 		Out
 Portland Trail Blazers
-	Ibou Badji
+	Jusuf Nurkic
+		Day-To-Day
+	Damian Lillard
+		Day-To-Day
+	Trendon Watford
+		Day-To-Day
+	Jerami Grant
 		Out
 	Anfernee Simons
 		Out
-	Jusuf Nurkic
-		Out
-	Ryan Arcidiacono
-		Out
 	Justise Winslow
+		Out
+	Ibou Badji
 		Out
 Sacramento Kings
 	De'Aaron Fox
@@ -170,30 +183,38 @@ Sacramento Kings
 San Antonio Spurs
 	Jeremy Sochan
 		Day-To-Day
-	Doug McDermott
-		Day-To-Day
-	Romeo Langford
-		Day-To-Day
-	Tre Jones
-		Day-To-Day
-	Zach Collins
+	Keldon Johnson
 		Day-To-Day
 	Khem Birch
 		Out
+	Charles Bassey
+		Out
 Toronto Raptors
-	Dalano Banton
+	Will Barton
 		Day-To-Day
+	Gary Trent Jr.
+		Out
+	Ron Harper Jr.
+		Day-To-Day
+	Dalano Banton
+		Out
+	Joe Wieskamp
+		Out
 	Otto Porter Jr.
 		Out
 Utah Jazz
-	Jordan Clarkson
-		Day-To-Day
-	Walker Kessler
-		Day-To-Day
 	Collin Sexton
 		Out
+	Rudy Gay
+		Out
+	Jordan Clarkson
+		Out
+	Lauri Markkanen
+		Day-To-Day
 Washington Wizards
 	Monte Morris
+		Day-To-Day
+	Bradley Beal
 		Out
 	Kyle Kuzma
-		Day-To-Day
+		Out

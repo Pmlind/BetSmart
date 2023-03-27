@@ -350,6 +350,7 @@ function parse(month)
                     console.log(dom.window.document.querySelector('#schedule').rows[i].cells[0].textContent);
                 }
             }
+            //today = 0;
             resolve();
         });
     });
@@ -359,8 +360,8 @@ async function run() {
     //await parse("october")
     //await parse("november")
     //await parse("december")
-    await parse("january")
-	await parse("february")
+    //await parse("january")
+	//await parse("february")
     await parse("march")
     //await parse("april")
     //await parse("may")
@@ -397,7 +398,7 @@ async function run() {
                     if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 5)
                     {
                         output += "Regular: "+team1.mascot+" "+spread+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NBAPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -406,7 +407,7 @@ async function run() {
                     else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -5)
                     {
                         output += "Regular: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NBAPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Regular', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -415,7 +416,7 @@ async function run() {
                     if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 5)
                     {
                         output += "Weighted: "+team1.mascot+" "+spread+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NBAPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team1.abreviation}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -424,7 +425,7 @@ async function run() {
                     else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -5)
                     {
                         output += "Weighted: "+team2.mascot+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NBAPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NBAPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${today}', 'Weighted', '${team2.abreviation}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
