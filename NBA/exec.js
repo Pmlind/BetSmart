@@ -359,10 +359,10 @@ async function run() {
     //await parse("october")
     //await parse("november")
     //await parse("december")
-    await parse("january")
-	await parse("february")
+    //await parse("january")
+	//await parse("february")
     await parse("march")
-    //await parse("april")
+    await parse("april")
     //await parse("may")
     //await parse("june")
 

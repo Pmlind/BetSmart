@@ -2778,9 +2778,9 @@ async function run() {
     //await iterator("november")
     //await iterator("december")
     //await iterator("january")
-	await iterator("february")
+	//await iterator("february")
     await iterator("march")
-    //await iterator("april")
+    await iterator("april")
     //await iterator("may")
     //await iterator("june")
 
@@ -2823,7 +2823,7 @@ async function run() {
                     if((team1.score/team1.games + Number(spread) - team2.score/team2.games) >= 5)
                     {
                         output += "Regular: "+team1.nickname+" "+spread+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NCAABPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -2832,7 +2832,7 @@ async function run() {
                     else if((team1.score/team1.games + Number(spread) - team2.score/team2.games) <= -5)
                     {
                         output += "Regular: "+team2.nickname+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.score/team1.games + Number(spread) - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NCAABPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Regular', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.score/team1.games + Number(spread) - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -2841,7 +2841,7 @@ async function run() {
                     if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) >= 5)
                     {
                         output += "Weighted: "+team1.nickname+" "+spread+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NCAABPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team1.nickname}', ${Number(spread)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
@@ -2850,7 +2850,7 @@ async function run() {
                     else if((team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games) <= -5)
                     {
                         output += "Weighted: "+team2.nickname+" "+(Number(spread)-(Number(spread)*2))+" by "+(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)+"\n";
-                        sql = `INSERT INTO NCAABPICKSTEST(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
+                        sql = `INSERT INTO NCAABPICKS(date, picktype, team, spread, spreadby, inj5) VALUES('${day}', 'Weighted', '${team2.nickname}', ${Number(spread)-(Number(spread)*2)}, ${Math.abs(team1.weightedScore/team1.games + team1.score/team1.games + Number(spread) - team2.weightedScore/team2.games - team2.score/team2.games)}, 0);`;
                         con.query(sql, function (err, result) {
                             if (err) throw err;
                             console.log("Number of records inserted: " + result.affectedRows);
